@@ -36,6 +36,11 @@ public class Proyecto {
     public void setNombreProyecto(String nombreProyecto) {
         this.nombreProyecto = nombreProyecto;
     }
+
+    @Override
+    public String toString() {
+        return "Proyecto{" + "nombreProyecto=" + nombreProyecto + ", IDProyecto=" + IDProyecto + '}';
+    }
     
     
     

@@ -47,6 +47,11 @@ public class Sondeo {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
+
+    @Override
+    public String toString() {
+        return "Sondeo{" + "IDProyecto=" + IDProyecto + ", fecha=" + fecha + ", coordenadas=" + coordenadas + '}';
+    }
     
     
 }

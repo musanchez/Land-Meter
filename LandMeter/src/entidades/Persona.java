@@ -35,6 +35,11 @@ public class Persona {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    @Override
+    public String toString() {
+        return "Persona{" + "nombre=" + nombre + ", ID_Persona=" + ID_Persona + '}';
+    }
     
     
 }

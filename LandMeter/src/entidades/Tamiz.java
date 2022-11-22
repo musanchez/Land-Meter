@@ -36,6 +36,11 @@ public class Tamiz {
     public void setTamanioPul(String tamanioPul) {
         this.tamanioPul = tamanioPul;
     }
+
+    @Override
+    public String toString() {
+        return "Tamiz{" + "tamanioPul=" + tamanioPul + ", tamanioMm=" + tamanioMm + '}';
+    }
     
     
 }

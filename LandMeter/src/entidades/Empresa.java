@@ -46,6 +46,11 @@ public class Empresa {
     public void setNombreEmpresa(String nombreEmpresa) {
         this.nombreEmpresa = nombreEmpresa;
     }
+
+    @Override
+    public String toString() {
+        return "Empresa{" + "ID_Empresa=" + ID_Empresa + ", nombreEmpresa=" + nombreEmpresa + ", telefonoEmpresa=" + telefonoEmpresa + '}';
+    }
     
     
 }

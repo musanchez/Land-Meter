@@ -56,6 +56,11 @@ public class Muestra {
     public void setPesoFinal(double pesoFinal) {
         this.pesoFinal = pesoFinal;
     }
+
+    @Override
+    public String toString() {
+        return "Muestra{" + "IDMuestra=" + IDMuestra + ", pesoInicial=" + pesoInicial + ", pesoFinal=" + pesoFinal + ", coordenadas=" + coordenadas + '}';
+    }
     
     
 }

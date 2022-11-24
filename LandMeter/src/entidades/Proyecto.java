@@ -13,30 +13,14 @@ public class Proyecto {
     private String nombreProyecto;
     private String IDProyecto;
     private String descripcion;
-    private String IDPersona;
+    private Persona representante;
 
-    public Proyecto(String nombreProyecto, String IDProyecto, String descripcion, String IDPersona) {
+    public String getNombreProyecto() {
+        return nombreProyecto;
+    }
+
+    public void setNombreProyecto(String nombreProyecto) {
         this.nombreProyecto = nombreProyecto;
-        this.IDProyecto = IDProyecto;
-        this.descripcion = descripcion;
-        this.IDPersona = IDPersona;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-    
-
-    public Proyecto() {
-    }
-
-    public Proyecto(String nombreProyecto, String IDProyecto) {
-        this.nombreProyecto = nombreProyecto;
-        this.IDProyecto = IDProyecto;
     }
 
     public String getIDProyecto() {
@@ -47,27 +31,32 @@ public class Proyecto {
         this.IDProyecto = IDProyecto;
     }
 
-    public String getNombreProyecto() {
-        return nombreProyecto;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setNombreProyecto(String nombreProyecto) {
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Persona getRepresentante() {
+        return representante;
+    }
+
+    public void setRepresentante(Persona representante) {
+        this.representante = representante;
+    }
+
+    public Proyecto() {
+    }
+
+    public Proyecto(String nombreProyecto, String IDProyecto, String descripcion, Persona representante) {
         this.nombreProyecto = nombreProyecto;
+        this.IDProyecto = IDProyecto;
+        this.descripcion = descripcion;
+        this.representante = representante;
     }
 
-    @Override
-    public String toString() {
-        return "Proyecto{" + "nombreProyecto=" + nombreProyecto + ", IDProyecto=" + IDProyecto + '}';
-    }
-
-    public String getIDPersona() {
-        return IDPersona;
-    }
-
-    public void setIDPersona(String IDPersona) {
-        this.IDPersona = IDPersona;
-    }
-    
     
     
 }

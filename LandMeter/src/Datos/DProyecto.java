@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import entidades.Persona;
 
 /**
  *
@@ -41,7 +42,7 @@ public class DProyecto {
             rs.updateString("ID_PROYECTO", a.getIDProyecto());
             rs.updateString("NOMBRE_PROYECTO", a.getNombreProyecto());
             rs.updateString("DESCRIPCION", a.getDescripcion());
-            rs.updateString("ID_PERSONA", a.getIDPersona());
+            rs.updateString("ID_PERSONA", a.getRepresentante().getID_Persona());
             rs.insertRow();
             rs.moveToCurrentRow();
             guardado = true;

@@ -4,6 +4,9 @@
  */
 package entidades;
 
+import javax.annotation.processing.SupportedSourceVersion;
+import javax.lang.model.SourceVersion;
+
 /**
  *
  * @author megan
@@ -11,6 +14,31 @@ package entidades;
 public class Persona {
     private String nombre;
     private String ID_Persona;
+    private String correo;
+    private String telefono;
+
+    public Persona(String nombre, String ID_Persona, String correo, String telefono) {
+        this.nombre = nombre;
+        this.ID_Persona = ID_Persona;
+        this.correo = correo;
+        this.telefono = telefono;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
 
     public Persona() {
     }
@@ -40,6 +68,5 @@ public class Persona {
     public String toString() {
         return "Persona{" + "nombre=" + nombre + ", ID_Persona=" + ID_Persona + '}';
     }
-    
     
 }

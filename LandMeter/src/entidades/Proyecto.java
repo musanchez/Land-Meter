@@ -12,6 +12,24 @@ public class Proyecto {
     
     private String nombreProyecto;
     private String IDProyecto;
+    private String descripcion;
+    private String IDPersona;
+
+    public Proyecto(String nombreProyecto, String IDProyecto, String descripcion, String IDPersona) {
+        this.nombreProyecto = nombreProyecto;
+        this.IDProyecto = IDProyecto;
+        this.descripcion = descripcion;
+        this.IDPersona = IDPersona;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    
 
     public Proyecto() {
     }
@@ -40,6 +58,14 @@ public class Proyecto {
     @Override
     public String toString() {
         return "Proyecto{" + "nombreProyecto=" + nombreProyecto + ", IDProyecto=" + IDProyecto + '}';
+    }
+
+    public String getIDPersona() {
+        return IDPersona;
+    }
+
+    public void setIDPersona(String IDPersona) {
+        this.IDPersona = IDPersona;
     }
     
     

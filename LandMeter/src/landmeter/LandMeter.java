@@ -4,6 +4,8 @@
  */
 package landmeter;
 
+import formularios.FrmInicio;
+
 /**
  *
  * @author megan
@@ -15,6 +17,8 @@ public class LandMeter {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        FrmInicio frm = new FrmInicio();
+        frm.setVisible(true);
     }
     
 }

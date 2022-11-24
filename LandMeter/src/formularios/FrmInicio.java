@@ -38,6 +38,11 @@ public class FrmInicio extends javax.swing.JFrame {
         jLblLogo.setAlignmentY(0.0F);
 
         jButton1.setText("Crear un nuevo Proyecto");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Visualizar Proyecto reciente");
 
@@ -97,6 +102,13 @@ public class FrmInicio extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        FrmProyecto frm2 = new FrmProyecto();
+        frm2.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

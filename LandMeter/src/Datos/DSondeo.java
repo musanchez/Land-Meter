@@ -3,19 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Datos;
-
-import entidades.Proyecto;
+import entidades.Sondeo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import entidades.Persona;
-
 /**
  *
- * @author User
+ * @author Silvio
  */
-public class DProyecto {
+public class DSondeo {
     private Connection conn = null;
     private PreparedStatement ps = null;
     private ResultSet rs = null;
@@ -23,31 +20,33 @@ public class DProyecto {
     public void obtRegistros() {
         try {
             conn = Conexion.obtConexion();
-            String tSQL = "SELECT * FROM [GENERAL].[PROYECTO]";
+            String tSQL = "SELECT * FROM [GENERAL].[SONDEO]";
             ps = conn.prepareStatement(tSQL,
                     ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE,
                     ResultSet.HOLD_CURSORS_OVER_COMMIT);
             rs = ps.executeQuery();
         } catch (SQLException ex) {
-            System.out.println("Error al obtener registros: " + ex.getMessage());
+            System.out.println("Error al obtener registros de sondeo: " + ex.getMessage());
         }
     }
     
-    public boolean guardarProyecto(Proyecto a) {
+    public boolean guardarSondeo(Sondeo a) {
         boolean guardado = false;
         this.obtRegistros();
         try {
             rs.moveToInsertRow();
-            rs.updateString("ID_PROYECTO", a.getIDProyecto());
-            rs.updateString("NOMBRE_PROYECTO", a.getNombreProyecto());
-            rs.updateString("DESCRIPCION", a.getDescripcion());
-            rs.updateString("ID_PERSONA", a.getRepresentante().getID_Persona());
+            rs.updateString("ID_PROYECTO", a.getProyecto().getIDProyecto());
+            java.util.Date utilDate = new java.util.Date();
+            java.sql.Date fecha = new java.sql.Date(utilDate.getTime());
+            rs.updateDate("FECHA", fecha);
+            rs.updateString("COORDENADAS", a.getCoordenadas());
+            
             rs.insertRow();
             rs.moveToCurrentRow();
             guardado = true;
         } catch (SQLException ex) {
-            System.out.println("Error al guardar al autor: " + ex.getMessage());
+            System.out.println("Error al guardar al sondeo: " + ex.getMessage());
         } finally {
             try {
                 if (rs != null) {
@@ -67,8 +66,4 @@ public class DProyecto {
         }
         return guardado;
     }
-    
-    
-    
-    
 }

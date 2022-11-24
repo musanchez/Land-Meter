@@ -11,33 +11,25 @@ import java.util.Date;
  * @author megan
  */
 public class Sondeo {
-    private Proyecto IDProyecto;
+    private Proyecto proyecto;
     private Date fecha;
     private String coordenadas;
 
     public Sondeo() {
     }
 
-    public Sondeo(Proyecto IDProyecto, Date fecha, String coordenadas) {
-        this.IDProyecto = IDProyecto;
+    public Sondeo(Proyecto proyecto, Date fecha, String coordenadas) {
+        this.proyecto = proyecto;
         this.fecha = fecha;
         this.coordenadas = coordenadas;
     }
 
-    public String getCoordenadas() {
-        return coordenadas;
+    public Proyecto getProyecto() {
+        return proyecto;
     }
 
-    public void setCoordenadas(String coordenadas) {
-        this.coordenadas = coordenadas;
-    }
-
-    public Proyecto getIDProyecto() {
-        return IDProyecto;
-    }
-
-    public void setIDProyecto(Proyecto IDProyecto) {
-        this.IDProyecto = IDProyecto;
+    public void setProyecto(Proyecto proyecto) {
+        this.proyecto = proyecto;
     }
 
     public Date getFecha() {
@@ -48,10 +40,21 @@ public class Sondeo {
         this.fecha = fecha;
     }
 
+    public String getCoordenadas() {
+        return coordenadas;
+    }
+
+    public void setCoordenadas(String coordenadas) {
+        this.coordenadas = coordenadas;
+    }
+
     @Override
     public String toString() {
-        return "Sondeo{" + "IDProyecto=" + IDProyecto + ", fecha=" + fecha + ", coordenadas=" + coordenadas + '}';
+        return "Sondeo{" + "proyecto=" + proyecto + ", fecha=" + fecha + ", coordenadas=" + coordenadas + '}';
     }
+
+    
+  
     
     
 }

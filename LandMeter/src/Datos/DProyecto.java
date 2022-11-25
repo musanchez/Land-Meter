@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import entidades.Persona;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -47,7 +48,7 @@ public class DProyecto {
             rs.moveToCurrentRow();
             guardado = true;
         } catch (SQLException ex) {
-            System.out.println("Error al guardar al autor: " + ex.getMessage());
+            System.out.println("Error al guardar datos del Proyecto: " + ex.getMessage());
         } finally {
             try {
                 if (rs != null) {
@@ -68,7 +69,34 @@ public class DProyecto {
         return guardado;
     }
     
+    public DefaultTableModel mostrarProyectos(){
+        
+    DefaultTableModel dtm = new DefaultTableModel();
+    String encabezados[] = {"Nombre","Descripcion","Empresa", "Representante","Telefono"};
+    dtm.setColumnIdentifiers(encabezados);
     
+    try{
+        ResultSet rs_vistaProyecto = null;
+        conn = Conexion.obtConexion();
+        String ConsultaSQL = "SELECT * FROM VW_PROYECTO";
+        ps = conn.prepareStatement(ConsultaSQL, ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE,ResultSet.HOLD_CURSORS_OVER_COMMIT);
+        rs_vistaProyecto = ps.executeQuery();
+        
+        while(rs_vistaProyecto.next()){
+          Object registro [] = new Object[5];
+          registro[0] = rs_vistaProyecto.getString("NOMBRE_PROYECTO");
+          registro[1] = rs_vistaProyecto.getString("DESCRIPCION");
+          registro[2] = rs_vistaProyecto.getString("NOMBRE_EMPRESA");
+          registro[3] = rs_vistaProyecto.getString("REPRESENTANTE");
+          registro[4] = rs_vistaProyecto.getString("TELEFONO");
+          dtm.addRow(registro);
+        }
+        
+    }catch(SQLException ex){
+         System.out.println("Error al mostrar datos del Proyecto: " + ex.getMessage());
+        }
+    return dtm;
+    }
     
     
 }

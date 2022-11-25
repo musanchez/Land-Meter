@@ -4,17 +4,22 @@
  */
 package formularios;
 
+import Datos.DProyecto;
+
 /**
  *
  * @author Synthia Pamella
  */
 public class FrmVProyectos extends javax.swing.JFrame {
 
+    DProyecto dProyecto = new DProyecto();
     /**
      * Creates new form FrmVProyectos
      */
     public FrmVProyectos() {
         initComponents();
+        this.jTblRegistrosProyectos.setModel(dProyecto.mostrarProyectos());
+       
     }
 
     /**
@@ -29,7 +34,7 @@ public class FrmVProyectos extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTblRegistrosProyectos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -43,18 +48,15 @@ public class FrmVProyectos extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/Logo LandMeter 175 px.png"))); // NOI18N
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTblRegistrosProyectos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTblRegistrosProyectos);
 
         jLabel1.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
         jLabel1.setText("Proyectos Creados");
@@ -167,6 +169,10 @@ public class FrmVProyectos extends javax.swing.JFrame {
             }
         });
     }
+    
+        private void ubicarDatos(){
+       
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -176,7 +182,7 @@ public class FrmVProyectos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTblRegistrosProyectos;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

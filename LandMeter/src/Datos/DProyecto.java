@@ -70,11 +70,12 @@ public class DProyecto {
     }
     
     public DefaultTableModel mostrarProyectos(){
-        
+        // muestra datos de vista creada en sql
     DefaultTableModel dtm = new DefaultTableModel();
     String encabezados[] = {"Nombre","Descripcion","Empresa", "Representante","Telefono"};
     dtm.setColumnIdentifiers(encabezados);
-    
+     
+    //muestra datos de vista creada en sql
     try{
         ResultSet rs_vistaProyecto = null;
         conn = Conexion.obtConexion();

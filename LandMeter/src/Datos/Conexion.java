@@ -14,7 +14,7 @@ public class Conexion {
     private static String url = "jdbc:sqlserver://localhost;" + "databaseName=LANDMETER;"
             + "Persist Security Info=True;";
     private static String user = "sa";
-    private static String password = "gonzalez123";
+    private static String password = "123";
     private Conexion() {
     }
     public static Conexion obtInstancia() {

@@ -4,10 +4,14 @@
  */
 package Datos;
 import entidades.Sondeo;
+import static formularios.FrmSondeos.jTfIdProyect;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Silvio
@@ -37,9 +41,12 @@ public class DSondeo {
         try {
             rs.moveToInsertRow();
             rs.updateString("ID_PROYECTO", a.getProyecto().getIDProyecto());
-            java.util.Date utilDate = new java.util.Date();
-            java.sql.Date fecha = new java.sql.Date(utilDate.getTime());
+            //establecemos formato de la fecha para convertirla al tipo de dato que acepta sql
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String formato = simpleDateFormat.format(a.getFecha());
+            java.sql.Date fecha = java.sql.Date.valueOf(formato);
             rs.updateDate("FECHA", fecha);
+            
             rs.updateString("COORDENADAS", a.getCoordenadas());
             
             rs.insertRow();
@@ -66,4 +73,40 @@ public class DSondeo {
         }
         return guardado;
     }
+    
+     public DefaultTableModel mostrarSondeos(String idConsulta){
+        // muestra datos de vista creada en sql
+        DefaultTableModel dtm = new DefaultTableModel(){
+
+            public boolean isCellEditable(int row,int column){
+                return false;
+            }
+        };
+
+        String encabezados[] = {"Coordenadas","Fecha Sondeo"};
+        dtm.setColumnIdentifiers(encabezados);
+
+        //muestra datos de consulta en sql
+        try{
+            ResultSet rs_consultaSondeo = null;
+            conn = Conexion.obtConexion();
+            
+            String ConsultaSQL = "SELECT COORDENADAS, FECHA FROM [GENERAL].[SONDEO] WHERE ID_PROYECTO = " +idConsulta;
+            ps = conn.prepareStatement(ConsultaSQL, ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE,ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            rs_consultaSondeo = ps.executeQuery();
+
+            while(rs_consultaSondeo.next()){
+
+              Object registro [] = new Object[2];
+              registro[0] = rs_consultaSondeo.getString("COORDENADAS");
+              registro[1] = rs_consultaSondeo.getString("FECHA");
+              dtm.addRow(registro);
+            }
+
+        }catch(SQLException ex){
+             System.out.println("Error al mostrar Sondeos del Proyecto: " + ex.getMessage());
+
+            }
+        return dtm;
+        }
 }

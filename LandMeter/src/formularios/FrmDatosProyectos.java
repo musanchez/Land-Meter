@@ -8,15 +8,18 @@ import Datos.DEmpresa;
 import Datos.DPersona;
 import Datos.DProyecto;
 import Datos.DRepresentantexEmpresa;
+import Datos.DSondeo;
 import entidades.Empresa;
 import entidades.Persona;
 import entidades.Proyecto;
 import entidades.RepresentantexEmpresa;
+import java.awt.HeadlessException;
 import java.util.Date;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -34,6 +37,7 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
     DPersona dper = new DPersona();
     DRepresentantexEmpresa drexemp = new DRepresentantexEmpresa();
     TableRowSorter trsFiltro;
+    DSondeo dsond = new DSondeo();
 
     /**
      * Creates new form FrmDatosProyectos
@@ -103,12 +107,56 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
         this.jTfIdentificacionRepresentante.setEnabled(false);
         this.jTfRUC.setEnabled(false);
        
-        jBtnGuardarProyecto.setEnabled(true);
-        jBtnEditar.setEnabled(false);
-        jBtnEliminar.setEnabled(false);
-        jBtnSondeo.setEnabled(false);
+        jBtnGuardarProyecto.setEnabled(false);
+        jBtnEditar.setEnabled(true);
+        jBtnEliminar.setEnabled(true);
+        jBtnSondeo.setEnabled(true);
     }
 
+     private void verificarDatosVacios(){
+        if(jTfNombreProyecto.getText().equals("")||jTfNombreProyecto.getText().length()==0){
+            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"+
+                    " no esten vacíos.","Proyectos",JOptionPane.WARNING_MESSAGE);
+         jTfNombreProyecto.requestFocus();
+        }
+        if(jTfDescripcionProyecto.getText().equals("")||jTfDescripcionProyecto.getText().length()==0){
+            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"+
+                    " no esten vacíos.","Proyectos",JOptionPane.WARNING_MESSAGE);
+            jTfDescripcionProyecto.requestFocus();
+        }
+        
+         if(jTfNombreEmpresa.getText().equals("")|| jTfNombreEmpresa.getText().length()==0){
+            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"+
+                    " no esten vacíos.","Proyectos",JOptionPane.WARNING_MESSAGE);
+            jTfNombreEmpresa.requestFocus();
+        }
+         
+          if(jTfTelefonoEmpresa.getText().equals("")|| jTfTelefonoEmpresa.getText().length()==0){
+            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"+
+                    " no esten vacíos.","Proyectos",JOptionPane.WARNING_MESSAGE);
+            jTfTelefonoEmpresa.requestFocus();
+        }
+          
+           if(jTfNombreRepresentante.getText().equals("")|| jTfNombreRepresentante.getText().length()==0){
+            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"+
+                    " no esten vacíos.","Proyectos",JOptionPane.WARNING_MESSAGE);
+            jTfNombreRepresentante.requestFocus();
+        }
+           
+            if(jTfTelefonoRepresentante.getText().equals("")|| jTfTelefonoRepresentante.getText().length()==0){
+            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"+
+                    " no esten vacíos.","Proyectos",JOptionPane.WARNING_MESSAGE);
+            jTfTelefonoRepresentante.requestFocus();
+        }
+              if(jTfCorreoRepresentante.getText().equals("")|| jTfCorreoRepresentante.getText().length()==0){
+            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"+
+                    " no esten vacíos.","Proyectos",JOptionPane.WARNING_MESSAGE);
+            jTfCorreoRepresentante.requestFocus();
+        }
+           
+           
+           
+    }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -445,6 +493,11 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
         jBtnSondeo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/sondeosFI.png"))); // NOI18N
         jBtnSondeo.setText("Sondeos");
         jBtnSondeo.setEnabled(false);
+        jBtnSondeo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnSondeoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -553,6 +606,9 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
 
     private void jBtnGuardarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGuardarProyectoActionPerformed
         // TODO add your handling code here:
+        
+        try{
+            
         String nombreEmpresa = jTfNombreEmpresa.getText();
         String ruc = jTfRUC.getText();
         String telefonoEmp = jTfTelefonoEmpresa.getText();
@@ -578,6 +634,11 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
 
         RepresentantexEmpresa rexemp = new RepresentantexEmpresa(ruc, idPer, fecha);
         drexemp.guardarProyecto(rexemp);
+        JOptionPane.showMessageDialog(this, "Registro Guardado.",
+                        "Proyectos",JOptionPane.INFORMATION_MESSAGE);
+        }catch(HeadlessException ex){
+             System.out.println("Error al intentar guardar: "+ex.getMessage());
+        }
     }//GEN-LAST:event_jBtnGuardarProyectoActionPerformed
 
     private void TfBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TfBuscarKeyReleased
@@ -588,6 +649,7 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
 
     private void jBtnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEditarActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_jBtnEditarActionPerformed
 
     private void jTblRegistrosProyectosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTblRegistrosProyectosKeyReleased
@@ -601,6 +663,17 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
         // TODO add your handling code here:
         ubicarDatos();
     }//GEN-LAST:event_jTblRegistrosProyectosMouseClicked
+
+    private void jBtnSondeoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSondeoActionPerformed
+        // TODO add your handling code here:
+        FrmSondeos frm2 = new FrmSondeos();
+        frm2.setVisible(true);
+        this.setVisible(false);
+        FrmSondeos.jTfIdProyect.setText(this.jTfIdProyecto.getText());
+        FrmSondeos.jTfNomProyecto.setText(this.jTfNombreProyecto.getText());
+        //mostramos la tabla de sondeos
+        FrmSondeos.jTblRegistrosSondeos.setModel(dsond.mostrarSondeos(FrmSondeos.jTfIdProyect.getText()));
+    }//GEN-LAST:event_jBtnSondeoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -670,7 +743,7 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
     private javax.swing.JTable jTblRegistrosProyectos;
     private javax.swing.JTextField jTfCorreoRepresentante;
     private javax.swing.JTextArea jTfDescripcionProyecto;
-    private javax.swing.JTextField jTfIdProyecto;
+    public static javax.swing.JTextField jTfIdProyecto;
     private javax.swing.JTextField jTfIdentificacionRepresentante;
     private javax.swing.JTextField jTfNombreEmpresa;
     private javax.swing.JTextField jTfNombreProyecto;

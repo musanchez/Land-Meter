@@ -5,6 +5,7 @@
 package landmeter;
 
 import formularios.FrmInicio;
+import static java.time.Clock.system;
 /**
  *
  * @author megan
@@ -16,9 +17,12 @@ public class LandMeter {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        FrmInicio frm = new FrmInicio();
+        //String id = "1";
+        //String Consulta = "SELECT COORDENADAS, FECHA FROM [GENERAL].[SONDEO] WHERE ID_PROYECTO ="+id;
+        //System.out.println(Consulta);
+       FrmInicio frm = new FrmInicio();
        
-        frm.setVisible(true);
+       frm.setVisible(true);
         
     }
     

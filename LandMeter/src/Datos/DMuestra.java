@@ -39,8 +39,8 @@ public class DMuestra {
         try {
             rs.moveToInsertRow();
             rs.updateString("ID_MUESTRA", a.getIDMuestra());
-            rs.updateDouble("PESO INICIAL", string1);
-            rs.updateString("COORDENADAS", a.getCoordenadas());
+            //rs.updateDouble("PESO INICIAL", string1);
+            //rs.updateString("COORDENADAS", a.getCoordenadas());
             
             rs.insertRow();
             rs.moveToCurrentRow();

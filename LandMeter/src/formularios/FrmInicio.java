@@ -30,7 +30,6 @@ public class FrmInicio extends javax.swing.JFrame {
     private void initComponents() {
 
         jBtnFrmProyecto = new javax.swing.JButton();
-        jBtnVProyectos = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLblLogo = new javax.swing.JLabel();
@@ -43,13 +42,6 @@ public class FrmInicio extends javax.swing.JFrame {
         jBtnFrmProyecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnFrmProyectoActionPerformed(evt);
-            }
-        });
-
-        jBtnVProyectos.setText("Visualizar Proyecto reciente");
-        jBtnVProyectos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnVProyectosActionPerformed(evt);
             }
         });
 
@@ -77,20 +69,18 @@ public class FrmInicio extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(517, 517, 517)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jBtnVProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jBtnFrmProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(55, 55, 55))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(85, 85, 85))))
+                        .addGap(513, 513, 513)
+                        .addComponent(jBtnFrmProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(59, 59, 59))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLblLogo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(94, 94, 94))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLblLogo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))))
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -99,17 +89,15 @@ public class FrmInicio extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(165, 165, 165)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(62, 62, 62)
                         .addComponent(jLblLogo)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jBtnFrmProyecto)
-                        .addGap(36, 36, 36)
-                        .addComponent(jBtnVProyectos)))
+                        .addComponent(jBtnFrmProyecto))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(165, 165, 165)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(97, Short.MAX_VALUE))
         );
 
@@ -118,17 +106,10 @@ public class FrmInicio extends javax.swing.JFrame {
 
     private void jBtnFrmProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnFrmProyectoActionPerformed
         // TODO add your handling code here:
-        FrmProyecto frm2 = new FrmProyecto();
+        FrmDatosProyectos frm2 = new FrmDatosProyectos();
         frm2.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jBtnFrmProyectoActionPerformed
-
-    private void jBtnVProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnVProyectosActionPerformed
-        // TODO add your handling code here:
-         FrmVProyectos frmVP = new FrmVProyectos();
-        frmVP.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jBtnVProyectosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -167,7 +148,6 @@ public class FrmInicio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnFrmProyecto;
-    private javax.swing.JButton jBtnVProyectos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLblLogo;
     private javax.swing.JPanel jPanel1;

@@ -5,8 +5,6 @@
 package landmeter;
 
 import formularios.FrmInicio;
-import formularios.FrmVProyectos;
-
 /**
  *
  * @author megan

@@ -256,7 +256,7 @@ public class FrmMuestras extends javax.swing.JFrame {
 
     private void jBtnGuardarAMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGuardarAMActionPerformed
         // TODO add your handling code here:
-        String IDm= 
+        //String IDm= 
     }//GEN-LAST:event_jBtnGuardarAMActionPerformed
 
     /**

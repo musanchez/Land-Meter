@@ -74,8 +74,12 @@ public class DProyecto {
     
     public DefaultTableModel mostrarProyectos(){
         // muestra datos de vista creada en sql
-    DefaultTableModel dtm = new DefaultTableModel();
-    String encabezados[] = {"Nombre","Descripcion","Empresa", "Representante","Telefono"};
+    DefaultTableModel dtm = new DefaultTableModel(){
+        public boolean isCellEditable(int row,int column){
+            return false;
+        }
+    };
+    String encabezados[] = {"Proyecto","Descripcion","ID", "Empresa","ID", "Telefono", "Representante","ID","Telefono", "Correo"};
     dtm.setColumnIdentifiers(encabezados);
      
     //muestra datos de vista creada en sql
@@ -87,12 +91,17 @@ public class DProyecto {
         rs_vistaProyecto = ps.executeQuery();
         
         while(rs_vistaProyecto.next()){
-          Object registro [] = new Object[5];
+          Object registro [] = new Object[10];
           registro[0] = rs_vistaProyecto.getString("NOMBRE_PROYECTO");
           registro[1] = rs_vistaProyecto.getString("DESCRIPCION");
-          registro[2] = rs_vistaProyecto.getString("NOMBRE_EMPRESA");
-          registro[3] = rs_vistaProyecto.getString("REPRESENTANTE");
-          registro[4] = rs_vistaProyecto.getString("TELEFONO");
+          registro[2] = rs_vistaProyecto.getString("ID_PROYECTO");
+          registro[3] = rs_vistaProyecto.getString("NOMBRE_EMPRESA");
+          registro[4] = rs_vistaProyecto.getString("ID_EMPRESA");
+          registro[5] = rs_vistaProyecto.getString("TELEFONO_EMPRESA");
+          registro[6] = rs_vistaProyecto.getString("NOMBRE_PERSONA");
+          registro[7] = rs_vistaProyecto.getString("ID_PERSONA");
+          registro[8] = rs_vistaProyecto.getString("TELEFONO");
+          registro[9] = rs_vistaProyecto.getString("CORREO");
           dtm.addRow(registro);
         }
         

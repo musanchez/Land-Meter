@@ -10,6 +10,7 @@ import entidades.Persona;
 import entidades.Proyecto;
 import entidades.RepresentantexEmpresa;
 import entidades.Sondeo;
+import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -53,15 +54,15 @@ public class FrmSondeos extends javax.swing.JFrame {
         jTfFechaSondeo = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jTfIdProyect = new javax.swing.JTextField();
-        jBtnGuardar = new javax.swing.JButton();
+        jBtnGuardarSondeo = new javax.swing.JButton();
         jTfNomProyecto = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTblRegistrosSondeos = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jBtnEditarSondeo = new javax.swing.JButton();
+        jBtnEliminarSondeo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,11 +102,11 @@ public class FrmSondeos extends javax.swing.JFrame {
 
         jTfIdProyect.setEnabled(false);
 
-        jBtnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/guardarFI.png"))); // NOI18N
-        jBtnGuardar.setText("Guardar");
-        jBtnGuardar.addActionListener(new java.awt.event.ActionListener() {
+        jBtnGuardarSondeo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/guardarFI.png"))); // NOI18N
+        jBtnGuardarSondeo.setText("Guardar");
+        jBtnGuardarSondeo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnGuardarActionPerformed(evt);
+                jBtnGuardarSondeoActionPerformed(evt);
             }
         });
 
@@ -151,7 +152,7 @@ public class FrmSondeos extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                     .addContainerGap(288, Short.MAX_VALUE)
-                    .addComponent(jBtnGuardar)
+                    .addComponent(jBtnGuardarSondeo)
                     .addGap(28, 28, 28)))
         );
         jPanel2Layout.setVerticalGroup(
@@ -179,7 +180,7 @@ public class FrmSondeos extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                     .addContainerGap(223, Short.MAX_VALUE)
-                    .addComponent(jBtnGuardar)
+                    .addComponent(jBtnGuardarSondeo)
                     .addContainerGap()))
         );
 
@@ -191,6 +192,16 @@ public class FrmSondeos extends javax.swing.JFrame {
 
             }
         ));
+        jTblRegistrosSondeos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTblRegistrosSondeosMouseClicked(evt);
+            }
+        });
+        jTblRegistrosSondeos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTblRegistrosSondeosKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTblRegistrosSondeos);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -210,13 +221,13 @@ public class FrmSondeos extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/editarFI.png"))); // NOI18N
-        jButton2.setText("Editar");
-        jButton2.setEnabled(false);
+        jBtnEditarSondeo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/editarFI.png"))); // NOI18N
+        jBtnEditarSondeo.setText("Editar");
+        jBtnEditarSondeo.setEnabled(false);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/eliminarFI.png"))); // NOI18N
-        jButton3.setText("Eliminar");
-        jButton3.setEnabled(false);
+        jBtnEliminarSondeo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/eliminarFI.png"))); // NOI18N
+        jBtnEliminarSondeo.setText("Eliminar");
+        jBtnEliminarSondeo.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -229,8 +240,8 @@ public class FrmSondeos extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(jBtnEditarSondeo)
+                    .addComponent(jBtnEliminarSondeo))
                 .addContainerGap())
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -246,16 +257,16 @@ public class FrmSondeos extends javax.swing.JFrame {
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(58, 58, 58)
-                        .addComponent(jButton2)
+                        .addComponent(jBtnEditarSondeo)
                         .addGap(29, 29, 29)
-                        .addComponent(jButton3)))
+                        .addComponent(jBtnEliminarSondeo)))
                 .addContainerGap(91, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jBtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGuardarActionPerformed
+    private void jBtnGuardarSondeoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGuardarSondeoActionPerformed
         // TODO add your handling code here:
         Date fechaSondeo = new Date();
         SimpleDateFormat formato = new SimpleDateFormat ("yyyy-MM-dd");
@@ -278,7 +289,19 @@ public class FrmSondeos extends javax.swing.JFrame {
         dsondeo.guardarSondeo(sondeo);
        
         
-    }//GEN-LAST:event_jBtnGuardarActionPerformed
+    }//GEN-LAST:event_jBtnGuardarSondeoActionPerformed
+
+    private void jTblRegistrosSondeosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTblRegistrosSondeosKeyReleased
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_UP || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            ubicarDatosSondeos();
+        }
+    }//GEN-LAST:event_jTblRegistrosSondeosKeyReleased
+
+    private void jTblRegistrosSondeosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblRegistrosSondeosMouseClicked
+        // TODO add your handling code here:
+        ubicarDatosSondeos();
+    }//GEN-LAST:event_jTblRegistrosSondeosMouseClicked
 
     /**
      * @param args the command line arguments
@@ -314,11 +337,36 @@ public class FrmSondeos extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void ubicarDatosSondeos() {
+        
+        int fila = jTblRegistrosSondeos.getSelectedRow();
+        Object coordenadas = this.jTblRegistrosSondeos.getValueAt(fila, 0);
+        Object fecha = this.jTblRegistrosSondeos.getValueAt(fila, 1);
+       
+
+        String coordenadasSondeo = String.valueOf(coordenadas);
+        String fechaSondeo = String.valueOf(fecha);
+        //  Date  = String.valueOf(descripcion);
+         /*
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formato = simpleDateFormat.format(fecha);
+        java.sql.Date fechaSondeo = java.sql.Date.valueOf(formato);
+        */
+
+        this.jTfCoordenadasSondeo.setText(coordenadasSondeo);
+        this.jTfFechaSondeo.setText(fechaSondeo);
+
+            jBtnGuardarSondeo.setEnabled(false);
+            jBtnEditarSondeo.setEnabled(true);
+            jBtnEliminarSondeo.setEnabled(true);
+          
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBtnGuardar;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jBtnEditarSondeo;
+    private javax.swing.JButton jBtnEliminarSondeo;
+    private javax.swing.JButton jBtnGuardarSondeo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

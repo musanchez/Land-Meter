@@ -4,7 +4,6 @@
  */
 package Datos;
 
-
 import entidades.Persona;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,6 +19,7 @@ public class DPersona {
     private Connection conn = null;
     private PreparedStatement ps = null;
     private ResultSet rs = null;
+
     // tipo = 1 -> representante, tipo = 2 -> ensayista, tipo = 3 -> persona
     public void obtRegistros(int tipo) {
         try {
@@ -43,10 +43,11 @@ public class DPersona {
             System.out.println("Error al obtener registros: " + ex.getMessage());
         }
     }
-        /*
+
+    /*
         op sigue
         las mismas reglas
-        */
+     */
     public boolean guardarPersona(Persona a, int op) {
         boolean guardado = false;
         this.obtRegistros(op);
@@ -85,4 +86,54 @@ public class DPersona {
         return guardado;
     }
 
+    public boolean inRepresentante(String id) {
+        boolean resp = false;
+        int cant;
+        String tSQL = "SELECT COUNT(*) AS CANTIDAD\n"
+                + "FROM [GENERAL].[REPRESENTANTE]\n"
+                + "WHERE [ID_PERSONA] = '" + id + "'";
+        try {
+            conn = Conexion.obtConexion();
+            ps = conn.prepareStatement(tSQL,
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            rs = ps.executeQuery();
+            rs.next();
+            cant = rs.getInt("CANTIDAD");
+            System.out.println(cant);
+            if (cant > 0) {
+                resp = true;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error");
+        }
+
+        return resp;
+
+    }
+    public boolean inPersona(String id) {
+        boolean resp = false;
+        int cant;
+        String tSQL = "SELECT COUNT(*) AS CANTIDAD\n"
+                + "FROM [GENERAL].[PERSONA]\n"
+                + "WHERE [ID_PERSONA] = '" + id + "'";
+        try {
+            conn = Conexion.obtConexion();
+            ps = conn.prepareStatement(tSQL,
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            rs = ps.executeQuery();
+            rs.next();
+            cant = rs.getInt("CANTIDAD");
+            if (cant > 0) {
+                resp = true;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error");
+        }
+
+        return resp;
+    }
 }

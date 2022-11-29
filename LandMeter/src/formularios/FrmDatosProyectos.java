@@ -9,6 +9,7 @@ import Datos.DPersona;
 import Datos.DProyecto;
 import Datos.DRepresentantexEmpresa;
 import Datos.DSondeo;
+import com.sun.jdi.connect.spi.Connection;
 import entidades.Empresa;
 import entidades.Persona;
 import entidades.Proyecto;
@@ -18,7 +19,12 @@ import java.util.Date;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
@@ -45,7 +51,12 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
     public FrmDatosProyectos() {
         initComponents();
         this.jTblRegistrosProyectos.setModel(dProyecto.mostrarProyectos());
+        this.fillCombo();
+        this.siNuevaEmpresa();
     }
+    private Connection conn = null;
+    private PreparedStatement ps = null;
+    private ResultSet rs = null;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -58,6 +69,18 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
         trsFiltro = new TableRowSorter(jTblRegistrosProyectos.getModel());
         jTblRegistrosProyectos.setRowSorter(trsFiltro);
         filtrarTabla(s);
+    }
+
+    private void fillCombo() {
+        ArrayList<String> emp = new ArrayList<String>();
+        try {
+            emp = demp.listarEmpresas();
+            for (String a : emp) {
+                jCmbEmpresas.addItem(a);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmDatosProyectos.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void filtrarTabla(String x) {
@@ -102,60 +125,58 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
         this.jTfIdentificacionRepresentante.setText(idRep);
         this.jTfTelefonoRepresentante.setText(tel);
         this.jTfCorreoRepresentante.setText(email);
-        
+
         this.jTfIdProyecto.setEnabled(false);
         this.jTfIdentificacionRepresentante.setEnabled(false);
         this.jTfRUC.setEnabled(false);
-       
+
         jBtnGuardarProyecto.setEnabled(false);
         jBtnEditar.setEnabled(true);
         jBtnEliminar.setEnabled(true);
         jBtnSondeo.setEnabled(true);
     }
 
-     private void verificarDatosVacios(){
-        if(jTfNombreProyecto.getText().equals("")||jTfNombreProyecto.getText().length()==0){
-            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"+
-                    " no esten vacíos.","Proyectos",JOptionPane.WARNING_MESSAGE);
-         jTfNombreProyecto.requestFocus();
+    private void verificarDatosVacios() {
+        if (jTfNombreProyecto.getText().equals("") || jTfNombreProyecto.getText().length() == 0) {
+            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"
+                    + " no esten vacíos.", "Proyectos", JOptionPane.WARNING_MESSAGE);
+            jTfNombreProyecto.requestFocus();
         }
-        if(jTfDescripcionProyecto.getText().equals("")||jTfDescripcionProyecto.getText().length()==0){
-            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"+
-                    " no esten vacíos.","Proyectos",JOptionPane.WARNING_MESSAGE);
+        if (jTfDescripcionProyecto.getText().equals("") || jTfDescripcionProyecto.getText().length() == 0) {
+            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"
+                    + " no esten vacíos.", "Proyectos", JOptionPane.WARNING_MESSAGE);
             jTfDescripcionProyecto.requestFocus();
         }
-        
-         if(jTfNombreEmpresa.getText().equals("")|| jTfNombreEmpresa.getText().length()==0){
-            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"+
-                    " no esten vacíos.","Proyectos",JOptionPane.WARNING_MESSAGE);
+
+        if (jTfNombreEmpresa.getText().equals("") || jTfNombreEmpresa.getText().length() == 0) {
+            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"
+                    + " no esten vacíos.", "Proyectos", JOptionPane.WARNING_MESSAGE);
             jTfNombreEmpresa.requestFocus();
         }
-         
-          if(jTfTelefonoEmpresa.getText().equals("")|| jTfTelefonoEmpresa.getText().length()==0){
-            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"+
-                    " no esten vacíos.","Proyectos",JOptionPane.WARNING_MESSAGE);
+
+        if (jTfTelefonoEmpresa.getText().equals("") || jTfTelefonoEmpresa.getText().length() == 0) {
+            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"
+                    + " no esten vacíos.", "Proyectos", JOptionPane.WARNING_MESSAGE);
             jTfTelefonoEmpresa.requestFocus();
         }
-          
-           if(jTfNombreRepresentante.getText().equals("")|| jTfNombreRepresentante.getText().length()==0){
-            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"+
-                    " no esten vacíos.","Proyectos",JOptionPane.WARNING_MESSAGE);
+
+        if (jTfNombreRepresentante.getText().equals("") || jTfNombreRepresentante.getText().length() == 0) {
+            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"
+                    + " no esten vacíos.", "Proyectos", JOptionPane.WARNING_MESSAGE);
             jTfNombreRepresentante.requestFocus();
         }
-           
-            if(jTfTelefonoRepresentante.getText().equals("")|| jTfTelefonoRepresentante.getText().length()==0){
-            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"+
-                    " no esten vacíos.","Proyectos",JOptionPane.WARNING_MESSAGE);
+
+        if (jTfTelefonoRepresentante.getText().equals("") || jTfTelefonoRepresentante.getText().length() == 0) {
+            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"
+                    + " no esten vacíos.", "Proyectos", JOptionPane.WARNING_MESSAGE);
             jTfTelefonoRepresentante.requestFocus();
         }
-              if(jTfCorreoRepresentante.getText().equals("")|| jTfCorreoRepresentante.getText().length()==0){
-            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"+
-                    " no esten vacíos.","Proyectos",JOptionPane.WARNING_MESSAGE);
+        if (jTfCorreoRepresentante.getText().equals("") || jTfCorreoRepresentante.getText().length() == 0) {
+            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"
+                    + " no esten vacíos.", "Proyectos", JOptionPane.WARNING_MESSAGE);
             jTfCorreoRepresentante.requestFocus();
         }
-           
-           
-           
+
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -171,6 +192,8 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTfDescripcionProyecto = new javax.swing.JTextArea();
+        jRbtnEmpresa = new javax.swing.JRadioButton();
+        jCmbEmpresas = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -247,6 +270,26 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
         jTfDescripcionProyecto.setRows(5);
         jScrollPane2.setViewportView(jTfDescripcionProyecto);
 
+        jRbtnEmpresa.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jRbtnEmpresa.setText("Nueva Empresa");
+        jRbtnEmpresa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jRbtnEmpresaMouseClicked(evt);
+            }
+        });
+        jRbtnEmpresa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRbtnEmpresaActionPerformed(evt);
+            }
+        });
+
+        jCmbEmpresas.setFont(new java.awt.Font("Cambria", 0, 10)); // NOI18N
+        jCmbEmpresas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCmbEmpresasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -254,29 +297,43 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTfNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTfIdProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel5)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(322, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTfNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTfIdProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(72, 72, 72)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jRbtnEmpresa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jCmbEmpresas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(354, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTfIdProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(31, 31, 31))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jRbtnEmpresa)
+                        .addGap(18, 18, 18)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jCmbEmpresas)
+                        .addGap(44, 44, 44))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(jTfIdProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTfNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -284,7 +341,7 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGap(18, 18, 18))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 102)));
@@ -529,6 +586,11 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
         jLabel16.setText("Buscar:");
 
         TfBuscar.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
+        TfBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TfBuscarActionPerformed(evt);
+            }
+        });
         TfBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 TfBuscarKeyReleased(evt);
@@ -582,19 +644,20 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -603,41 +666,91 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
     private void jTfRUCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTfRUCActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTfRUCActionPerformed
+    private void siNuevaEmpresa() {
+        if (jRbtnEmpresa.isSelected()) {
+            jTfNombreEmpresa.setEnabled(true);
+            jTfRUC.setEnabled(true);
+            jTfTelefonoEmpresa.setEnabled(true);
+        } else {
+            jTfNombreEmpresa.setEnabled(false);
+            jTfRUC.setEnabled(false);
+            jTfTelefonoEmpresa.setEnabled(false);
+        }
+    }
+
+    private void limpiar() {
+        jTfNombreEmpresa.setText("");
+        jTfRUC.setText("");
+        jTfTelefonoEmpresa.setText("");
+        jTfIdProyecto.setText("");
+        jTfNombreProyecto.setText("");
+        jTfDescripcionProyecto.setText("");
+        jTfIdentificacionRepresentante.setText("");
+        jTfNombreRepresentante.setText("");
+        jTfCorreoRepresentante.setText("");
+        jTfTelefonoRepresentante.setText("");
+    }
+
 
     private void jBtnGuardarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGuardarProyectoActionPerformed
         // TODO add your handling code here:
-        
-        try{
-            
-        String nombreEmpresa = jTfNombreEmpresa.getText();
-        String ruc = jTfRUC.getText();
-        String telefonoEmp = jTfTelefonoEmpresa.getText();
-        Empresa emp = new Empresa(ruc, nombreEmpresa, telefonoEmp);
-        demp.guardarEmpresa(emp);
 
-        String idPro = jTfIdProyecto.getText();
-        String nombreProyecto = jTfNombreProyecto.getText();
-        String desc = jTfDescripcionProyecto.getText();
+        try {
+            String nombreEmpresa = jTfNombreEmpresa.getText();
+            String ruc = jTfRUC.getText();
+            String telefonoEmp = jTfTelefonoEmpresa.getText();
+            Empresa emp = new Empresa(ruc, nombreEmpresa, telefonoEmp);
+            String idPro = jTfIdProyecto.getText();
+            String nombreProyecto = jTfNombreProyecto.getText();
+            String desc = jTfDescripcionProyecto.getText();
+            String idPer = jTfIdentificacionRepresentante.getText();
+            String nomrep = jTfNombreRepresentante.getText();
+            String correo = jTfCorreoRepresentante.getText();
+            String telefono = jTfTelefonoRepresentante.getText();
 
-        String idPer = jTfIdentificacionRepresentante.getText();
-        String nomrep = jTfNombreRepresentante.getText();
-        String correo = jTfCorreoRepresentante.getText();
-        String telefono = jTfTelefonoRepresentante.getText();
-        Persona per = new Persona(nomrep, idPer, correo, telefono);
-        dper.guardarPersona(per, 3);
-        dper.guardarPersona(per, 1);
+            Date fecha = new Date();
+            Persona per = new Persona(nomrep, idPer, correo, telefono);
+            Proyecto pro = new Proyecto(nombreProyecto, idPro, desc, per);
+            RepresentantexEmpresa rexemp = new RepresentantexEmpresa(ruc, idPer, fecha);
 
-        Proyecto pro = new Proyecto(nombreProyecto, idPro, desc, per);
-        dpro.guardarProyecto(pro);
+            if (jRbtnEmpresa.isSelected()) {
 
-        Date fecha = new Date();
+                demp.guardarEmpresa(emp);
 
-        RepresentantexEmpresa rexemp = new RepresentantexEmpresa(ruc, idPer, fecha);
-        drexemp.guardarProyecto(rexemp);
-        JOptionPane.showMessageDialog(this, "Registro Guardado.",
-                        "Proyectos",JOptionPane.INFORMATION_MESSAGE);
-        }catch(HeadlessException ex){
-             System.out.println("Error al intentar guardar: "+ex.getMessage());
+                dper.guardarPersona(per, 3);
+                dper.guardarPersona(per, 1);
+
+                dpro.guardarProyecto(pro);
+
+                drexemp.guardarProyecto(rexemp);
+                JOptionPane.showMessageDialog(this, "Registro Guardado.",
+                        "Proyectos", JOptionPane.INFORMATION_MESSAGE);
+
+            } else {
+                nombreEmpresa = jCmbEmpresas.getSelectedItem().toString();
+                ruc = demp.getEmpId(nombreEmpresa);
+                emp.setID_Empresa(ruc);
+                rexemp.setIDEmpresa(ruc);
+                /*dper.guardarPersona(per, 3);
+                dper.guardarPersona(per, 1);*/
+
+                if (!dper.inPersona(idPer)) {
+                    dper.guardarPersona(per, 3);
+                    if (!dper.inRepresentante(idPer)) {
+                        dper.guardarPersona(per, 1);
+                    }
+                }
+                dpro.guardarProyecto(pro);
+                drexemp.guardarProyecto(rexemp);
+                JOptionPane.showMessageDialog(this, "Registro Guardado.",
+                        "Proyectos", JOptionPane.INFORMATION_MESSAGE);
+            }
+            this.fillCombo();
+            this.limpiar();
+            this.jTblRegistrosProyectos.setModel(dProyecto.mostrarProyectos());
+
+        } catch (HeadlessException ex) {
+            System.out.println("Error al intentar guardar: " + ex.getMessage());
         }
     }//GEN-LAST:event_jBtnGuardarProyectoActionPerformed
 
@@ -649,7 +762,7 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
 
     private void jBtnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEditarActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_jBtnEditarActionPerformed
 
     private void jTblRegistrosProyectosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTblRegistrosProyectosKeyReleased
@@ -674,6 +787,24 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
         //mostramos la tabla de sondeos
         FrmSondeos.jTblRegistrosSondeos.setModel(dsond.mostrarSondeos(FrmSondeos.jTfIdProyect.getText()));
     }//GEN-LAST:event_jBtnSondeoActionPerformed
+
+    private void TfBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TfBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TfBuscarActionPerformed
+
+    private void jRbtnEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRbtnEmpresaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRbtnEmpresaActionPerformed
+
+    private void jCmbEmpresasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCmbEmpresasActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jCmbEmpresasActionPerformed
+
+    private void jRbtnEmpresaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRbtnEmpresaMouseClicked
+        // TODO add your handling code here:
+        this.siNuevaEmpresa();
+    }//GEN-LAST:event_jRbtnEmpresaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -717,6 +848,7 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
     private javax.swing.JButton jBtnEliminar;
     private javax.swing.JButton jBtnGuardarProyecto;
     private javax.swing.JButton jBtnSondeo;
+    private javax.swing.JComboBox<String> jCmbEmpresas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -738,6 +870,7 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JRadioButton jRbtnEmpresa;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTblRegistrosProyectos;

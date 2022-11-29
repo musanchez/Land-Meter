@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -66,6 +67,36 @@ public class DEmpresa {
 
         }
         return guardado;
+    }
+
+    public ArrayList<String> listarEmpresas() throws SQLException {
+        ArrayList<String> lista = new ArrayList<String>();
+        this.obtRegistros();
+        while (rs.next()) {
+            lista.add(rs.getString("NOMBRE_EMPRESA"));
+        }
+        return lista;
+
+    }
+
+    public String getEmpId(String nom) {
+        String id = "";
+        String query = "SELECT [ID_EMPRESA]\n"
+                + "FROM [GENERAL].[EMPRESA]\n"
+                + "WHERE [NOMBRE_EMPRESA] = " + "'" + nom + "'";
+        try {
+            conn = Conexion.obtConexion();
+            ps = conn.prepareStatement(query,
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            rs = ps.executeQuery();
+            rs.next();
+            id = rs.getString("ID_EMPRESA");
+        } catch (SQLException ex) {
+            System.out.println("Error al obtener registro!");
+        }
+        return id;
     }
 
 }

@@ -8,6 +8,7 @@ package Datos;
  *
  * @author User
  */
-class DRepresentante {
+class DRepresentante extends DPersona {
+    
     
 }

@@ -48,7 +48,7 @@ public class DPersona {
     public void obtRegistrosRep() {
         try {
             conn = Conexion.obtConexion();
-            String tSQL = "SELECT [NOMBRE_PERSONA]\n"
+            String tSQL = "SELECT *\n"
                     + "FROM [GENERAL].[PERSONA] PER, [GENERAL].[REPRESENTANTE] REP\n"
                     + "WHERE PER.ID_PERSONA = REP.ID_PERSONA";
             ps = conn.prepareStatement(tSQL,
@@ -62,14 +62,34 @@ public class DPersona {
 
     }
 
-    public ArrayList<String> listarRepresentante() throws SQLException {
-        ArrayList<String> listaRep = new ArrayList<String>();
+    public ArrayList<Persona> listarRepresentante() throws SQLException {
+        ArrayList<Persona> listaRep = new ArrayList<Persona>();
         this.obtRegistrosRep();
         while (rs.next()) {
-            listaRep.add(rs.getString("NOMBRE_PERSONA"));
+            listaRep.add(new Persona(rs.getString("NOMBRE_PERSONA"), rs.getString("ID_PERSONA"), rs.getString("CORREO"), rs.getString("TELEFONO")));
         }
         return listaRep;
 
+    }
+
+    public String getNomID(String nom) {
+        String id = "";
+        String query = "SELECT REP.ID_PERSONA, P.NOMBRE_PERSONA, [TELEFONO], [CORREO]\n"
+                + "FROM [GENERAL].[PERSONA] P INNER JOIN [GENERAL].[REPRESENTANTE] REP\n"
+                + "ON P.ID_PERSONA=REP.ID_PERSONA";
+        try {
+            conn = Conexion.obtConexion();
+            ps = conn.prepareStatement(query,
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            rs = ps.executeQuery();
+            rs.next();
+            id = rs.getString("ID_PERSONA");
+        } catch (SQLException ex) {
+            System.out.println("Error al obtener registro!");
+        }
+        return id;
     }
 
     /*

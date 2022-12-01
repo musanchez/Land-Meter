@@ -4,6 +4,7 @@
  */
 package Datos;
 
+import entidades.Empresa;
 import entidades.Proyecto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -147,7 +148,7 @@ public class DProyecto {
        }
        return lista;
    }*/
-    /*public boolean existeProyecto(String nombreProyecto) {
+ /*public boolean existeProyecto(String nombreProyecto) {
         boolean resp = false;
         this.obtRegistros("SELECT [NOMBRE_PROYECTO]VP FROM [VW_PROYECTO]VP WHERE VP.NOMBRE_PROYECTO='?'");
         try {
@@ -198,11 +199,46 @@ public class DProyecto {
             if (cant > 0) {
                 res = true;
             }
-            
+
         } catch (SQLException ex) {
             System.out.println("Hubo un error al obtener el registro");
         }
         return res;
     }
-    
+
+    public void updateProyecto(Proyecto pro, Persona per, Empresa emp) {
+        String tSQL1 = "UPDATE [GENERAL].[PROYECTO]\n"
+                + "SET DESCRIPCION = ?, NOMBRE_PROYECTO = ?\n"
+                + "  WHERE ID_PROYECTO = ?";
+        String tSQL2 = "UPDATE [GENERAL].[PERSONA]\n"
+                + "  SET CORREO = ?, "
+                + " TELEFONO = ?, NOMBRE_PERSONA = ?\n"
+                + "  WHERE ID_PERSONA = ?";
+        String tSQL3 = "UPDATE [GENERAL].[EMPRESA]\n"
+                + "  SET NOMBRE_EMPRESA = ?, TELEFONO = ?"
+                + "  WHERE ID_EMPRESA = ?";
+        try {
+            conn = Conexion.obtConexion();
+            ps = conn.prepareStatement(tSQL1);
+            ps.setString(1, pro.getDescripcion());
+            ps.setString(2, pro.getNombreProyecto());
+            ps.setString(3, pro.getIDProyecto());
+            ps.executeUpdate();
+            
+            ps = conn.prepareStatement(tSQL2);
+            ps.setString(1, per.getCorreo());
+            ps.setString(2, per.getTelefono());
+            ps.setString(3, per.getNombre());
+            ps.setString(4, per.getID_Persona());
+            ps.executeUpdate();
+            
+            ps = conn.prepareStatement(tSQL3);
+            ps.setString(1, emp.getNombreEmpresa());
+            ps.setString(2, emp.getTelefonoEmpresa());
+            ps.setString(3, emp.getID_Empresa());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("No se ejecuta correctamente");
+        }
+    }
 }

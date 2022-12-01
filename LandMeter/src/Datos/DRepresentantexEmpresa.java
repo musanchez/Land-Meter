@@ -148,9 +148,7 @@ public class DRepresentantexEmpresa {
         } catch (SQLException ex) {
             System.out.println("Error: " + ex.getMessage());
         }
-
     }
-
     public void vincEmpxRep(String id_rep) {
         String tSQL = "UPDATE [GENERAL].[REPRESENTANTEXEMPRESA]"
                 + " SET [FECHA_FIN] = GETDATE() WHERE"
@@ -164,7 +162,5 @@ public class DRepresentantexEmpresa {
         } catch (SQLException ex) {
             System.out.println("Error: " + ex.getMessage());
         }
-
     }
-
 }

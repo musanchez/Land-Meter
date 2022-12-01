@@ -13,7 +13,7 @@ public class Proyecto {
     private String nombreProyecto;
     private String IDProyecto;
     private String descripcion;
-    private Persona representante;
+    private RepresentantexEmpresa repxemp;
 
     public String getNombreProyecto() {
         return nombreProyecto;
@@ -39,24 +39,23 @@ public class Proyecto {
         this.descripcion = descripcion;
     }
 
-    public Persona getRepresentante() {
-        return representante;
+    public RepresentantexEmpresa getRepxemp() {
+        return repxemp;
     }
 
-    public void setRepresentante(Persona representante) {
-        this.representante = representante;
+    public void setRepxemp(RepresentantexEmpresa repxemp) {
+        this.repxemp = repxemp;
+    }
+
+    public Proyecto(String nombreProyecto, String IDProyecto, String descripcion, RepresentantexEmpresa repxemp) {
+        this.nombreProyecto = nombreProyecto;
+        this.IDProyecto = IDProyecto;
+        this.descripcion = descripcion;
+        this.repxemp = repxemp;
     }
 
     public Proyecto() {
     }
-
-    public Proyecto(String nombreProyecto, String IDProyecto, String descripcion, Persona representante) {
-        this.nombreProyecto = nombreProyecto;
-        this.IDProyecto = IDProyecto;
-        this.descripcion = descripcion;
-        this.representante = representante;
-    }
-
     
     
 }

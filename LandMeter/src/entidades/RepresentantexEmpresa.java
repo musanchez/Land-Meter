@@ -14,12 +14,7 @@ public class RepresentantexEmpresa {
     private String IDEmpresa;
     private String IDPersona;
     private Date fecha = new Date();
-    
-    public RepresentantexEmpresa(String IDEmpresa, String IDPersona, Date fecha) {
-        this.IDEmpresa = IDEmpresa;
-        this.IDPersona = IDPersona;
-        this.fecha = fecha;
-    }
+    private Date fecha_fin = null;
 
     public String getIDEmpresa() {
         return IDEmpresa;
@@ -44,5 +39,17 @@ public class RepresentantexEmpresa {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-    
+
+    public Date getFecha_fin() {
+        return fecha_fin;
+    }
+
+    public void setFecha_fin(Date fecha_fin) {
+        this.fecha_fin = fecha_fin;
+    }
+
+    public RepresentantexEmpresa(String IDEmpresa, String IDPersona) {
+        this.IDEmpresa = IDEmpresa;
+        this.IDPersona = IDPersona;
+    }
 }

@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -42,6 +43,33 @@ public class DPersona {
         } catch (SQLException ex) {
             System.out.println("Error al obtener registros: " + ex.getMessage());
         }
+    }
+
+    public void obtRegistrosRep() {
+        try {
+            conn = Conexion.obtConexion();
+            String tSQL = "SELECT [NOMBRE_PERSONA]\n"
+                    + "FROM [GENERAL].[PERSONA] PER, [GENERAL].[REPRESENTANTE] REP\n"
+                    + "WHERE PER.ID_PERSONA = REP.ID_PERSONA";
+            ps = conn.prepareStatement(tSQL,
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            rs = ps.executeQuery();
+        } catch (SQLException ex) {
+            System.out.println("Error al obtener registros: " + ex.getMessage());
+        }
+
+    }
+
+    public ArrayList<String> listarRepresentante() throws SQLException {
+        ArrayList<String> listaRep = new ArrayList<String>();
+        this.obtRegistrosRep();
+        while (rs.next()) {
+            listaRep.add(rs.getString("NOMBRE_PERSONA"));
+        }
+        return listaRep;
+
     }
 
     /*
@@ -112,6 +140,7 @@ public class DPersona {
         return resp;
 
     }
+
     public boolean inPersona(String id) {
         boolean resp = false;
         int cant;

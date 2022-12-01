@@ -55,7 +55,7 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
         this.siNuevaEmpresa();
         this.fillComboRep();
         this.siNuevoRepresentante();
-        
+
     }
     private Connection conn = null;
     private PreparedStatement ps = null;
@@ -86,26 +86,26 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
             Logger.getLogger(FrmDatosProyectos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void fillComboRep(){
+
+    private void fillComboRep() {
         ArrayList<Persona> rep = new ArrayList<Persona>();
-        try{
+        try {
             rep = dper.listarRepresentante();
-            for (Persona a : rep){
-                jCmbRepresentante.addItem(a.getNombre() +":"+a.getID_Persona() );
+            for (Persona a : rep) {
+                jCmbRepresentante.addItem(a);
             }
-        } catch (SQLException ex){
+        } catch (SQLException ex) {
             Logger.getLogger(FrmDatosProyectos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void siNuevoRepresentante(){
-        if (jRbtnRepresentante.isSelected()){
+
+    private void siNuevoRepresentante() {
+        if (jRbtnRepresentante.isSelected()) {
             jTfNombreRepresentante.setEnabled(true);
             jTfIdentificacionRepresentante.setEnabled(true);
             jTfTelefonoRepresentante.setEnabled(true);
             jTfCorreoRepresentante.setEnabled(true);
-        } else{
+        } else {
             jTfNombreRepresentante.setEnabled(false);
             jTfIdentificacionRepresentante.setEnabled(false);
             jTfTelefonoRepresentante.setEnabled(false);
@@ -514,7 +514,7 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
                     .addComponent(jRbtnRepresentante))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCmbRepresentante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(jTfNombreRepresentante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -735,10 +735,17 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
         jTfTelefonoRepresentante.setText("");
     }
 
+    private String obtIdRep(String item) {
+        int pos = item.indexOf(": ");
+        System.out.println("inicio: " + pos);
+        String subcad = item.substring(pos + 2);
+
+        return subcad;
+    }
+
 
     private void jBtnGuardarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGuardarProyectoActionPerformed
         // TODO add your handling code here:
-
         try {
             // Obtenemos los datos de los textfields
             String nombreEmpresa = jTfNombreEmpresa.getText();
@@ -752,20 +759,47 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
             String nomrep = jTfNombreRepresentante.getText();
             String correo = jTfCorreoRepresentante.getText();
             String telefono = jTfTelefonoRepresentante.getText();
-
-            Persona per = new Persona(nomrep, idPer, correo, telefono);
             
+            Persona per = new Persona(nomrep, idPer, correo, telefono);
+
             RepresentantexEmpresa rexemp = new RepresentantexEmpresa(ruc, idPer);
             Proyecto pro = new Proyecto(nombreProyecto, idPro, desc, rexemp);
+            if (dpro.inProyecto(idPro)) {
+                JOptionPane.showMessageDialog(this, "ID de proyecto en uso!");
+                limpiar();
+                return;
+            }
             
             if (jRbtnEmpresa.isSelected()) {
-
+                if (demp.inEmpresa(ruc)) {
+                    JOptionPane.showMessageDialog(this, "Empresa ya existente!");
+                    limpiar();
+                    return;
+                }
                 demp.guardarEmpresa(emp);
+                if (!jRbtnRepresentante.isSelected()) {
+                    idPer = obtIdRep(jCmbRepresentante.getSelectedItem().toString());
+                    per.setID_Persona(idPer);
+                    rexemp.setIDPersona(idPer);
+                } else {
+                    if (!dper.inPersona(idPer)) {
+                        dper.guardarPersona(per, 3);
+                        dper.guardarPersona(per, 1);
+                    } else if (!dper.inRepresentante(idPer)) {
+                        dper.guardarPersona(per, 1);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Has ingresado "
+                                + "una identificación"
+                                + " de una persona registrada!");
+                        limpiar();
+                        return;
+                    }
+                }
                 if (!dper.inPersona(idPer)) {
                     dper.guardarPersona(per, 3);
                     dper.guardarPersona(per, 1);
-                } else if(!dper.inRepresentante(idPer)) {
-                    dper.guardarPersona(per, 1);    
+                } else if (!dper.inRepresentante(idPer)) {
+                    dper.guardarPersona(per, 1);
                 }
                 // verificar si la persona está vinculada con otra empresa y activo
                 drexemp.vincEmpxRep(idPer);
@@ -782,47 +816,44 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
                 ruc = demp.getEmpId(nombreEmpresa);
                 emp.setID_Empresa(ruc);
                 rexemp.setIDEmpresa(ruc);
-                
-                nomrep = jCmbRepresentante.getSelectedItem().toString();
-                idPer = dper.getNomID(nomrep);
-                per.setID_Persona(idPer);
-                
 
-                if (!dper.inPersona(idPer)) {
-                    dper.guardarPersona(per, 3);
-                    dper.guardarPersona(per, 1);
-                } else if(!dper.inRepresentante(idPer)) {
-                    dper.guardarPersona(per, 1);
+                if (!jRbtnRepresentante.isSelected()) {
+                    idPer = obtIdRep(jCmbRepresentante.getSelectedItem().toString());
+                    per.setID_Persona(idPer);
+                    rexemp.setIDPersona(idPer);
+                } else {
+                    if (!dper.inPersona(idPer)) {
+                        dper.guardarPersona(per, 3);
+                        dper.guardarPersona(per, 1);
+                    } else if (!dper.inRepresentante(idPer)) {
+                        dper.guardarPersona(per, 1);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Has ingresado "
+                                + "una identificación"
+                                + " de una persona registrada!");
+                        limpiar();
+                        return;
+                    }
                 }
-                
-                
-                
+
                 // estoy ingresando una persona a un empresa especifica
                 // tengo id empresa = ruc y se que está en los registros
                 // tengo persona, que tiene idPer y no se que pasa con ella todavia
-                
                 // la persona que ingreso no tiene registro con ninguna empresa
                 // la pareja (idPer, emp) no esta en repxemp -> solamente se agrega
-                
                 // la persona que ingreso tiene un registro con la empresa y se encuentra activa
                 // no hago nada
-                
                 // cuando ! condicion anterior tengo que hacer update
-                
-                
-                drexemp.updateEmpxRep(ruc,idPer, true);
-                
-                System.out.println("idPer: "+idPer+"---ruc: "+ruc);
+                drexemp.updateEmpxRep(ruc, idPer, true);
                 if (!drexemp.activoInRepxEmp(idPer, ruc)) {
                     // si no esta activa en la empresa vamos a realizar los update
                     if (drexemp.existeRepxEmp(idPer, ruc)) { // si existiese un registro, entonces idPer - ruc - not null
                         // revisamos si existe un registro, significa que está inactiva
-                        System.out.println("encontró el registro inactivo");
                         drexemp.updateEmpxRep(ruc, idPer, false);
                     } else {
                         // la pareja (idPer, ruc) no se encuentra registrada, entonces la registramos
                         drexemp.guardarRexEmp(rexemp);
-                    }   
+                    }
                 }
                 dpro.guardarProyecto(pro);
                 JOptionPane.showMessageDialog(this, "Registro Guardado.",
@@ -955,7 +986,7 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
     private javax.swing.JButton jBtnGuardarProyecto;
     private javax.swing.JButton jBtnSondeo;
     private javax.swing.JComboBox<String> jCmbEmpresas;
-    private javax.swing.JComboBox<String> jCmbRepresentante;
+    private javax.swing.JComboBox<Persona> jCmbRepresentante;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

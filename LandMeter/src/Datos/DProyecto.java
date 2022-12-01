@@ -147,7 +147,7 @@ public class DProyecto {
        }
        return lista;
    }*/
-    public boolean existeProyecto(String nombreProyecto) {
+    /*public boolean existeProyecto(String nombreProyecto) {
         boolean resp = false;
         this.obtRegistros("SELECT [NOMBRE_PROYECTO]VP FROM [VW_PROYECTO]VP WHERE VP.NOMBRE_PROYECTO='?'");
         try {
@@ -179,5 +179,30 @@ public class DProyecto {
         }
 
         return resp;
+    }*/
+    public boolean inProyecto(String id_pro) {
+        boolean res = false;
+        int cant;
+        String tSQL = "SELECT COUNT(*) CANT FROM"
+                + " [GENERAL].[PROYECTO] WHERE [ID_PROYECTO] = ?";
+        try {
+            conn = Conexion.obtConexion();
+            ps = conn.prepareStatement(tSQL,
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            ps.setString(1, id_pro);
+            rs = ps.executeQuery();
+            rs.next();
+            cant = rs.getInt("CANT");
+            if (cant > 0) {
+                res = true;
+            }
+            
+        } catch (SQLException ex) {
+            System.out.println("Hubo un error al obtener el registro");
+        }
+        return res;
     }
+    
 }

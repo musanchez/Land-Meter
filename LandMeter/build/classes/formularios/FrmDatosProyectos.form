@@ -393,7 +393,7 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jCmbRepresentante" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="46" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jTfNombreRepresentante" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -577,7 +577,7 @@
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Persona&gt;"/>
           </AuxValues>
         </Component>
       </SubComponents>

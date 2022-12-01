@@ -98,5 +98,30 @@ public class DEmpresa {
         }
         return id;
     }
+    public boolean inEmpresa(String ruc) {
+        boolean res = false;
+        int cant;
+        String tSQL = "SELECT COUNT(*) CANT FROM"
+                + " [GENERAL].[EMPRESA] WHERE [ID_EMPRESA] = ?";
+        try {
+            conn = Conexion.obtConexion();
+            ps = conn.prepareStatement(tSQL,
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            ps.setString(1, ruc);
+            rs = ps.executeQuery();
+            rs.next();
+            cant = rs.getInt("CANT");
+            if (cant > 0) {
+                res = true;
+            }
+            
+        } catch (SQLException ex) {
+            System.out.println("Hubo un error al obtener el registro");
+        }
+        return res;
+    }
+    
 
 }

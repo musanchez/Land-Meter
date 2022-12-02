@@ -241,4 +241,74 @@ public class DProyecto {
             System.out.println("No se ejecuta correctamente");
         }
     }
+    
+    public boolean existeProyecto(String idProyecto) {
+        boolean resp = false;
+        this.obtRegistros("SELECT * FROM [GENERAL].[PROYECTO]");
+        try {
+            rs.beforeFirst();
+            while (rs.next()) {
+                if (rs.getString("ID_PROYECTO").equals(idProyecto)) {
+                    resp = true;
+                    break;
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al buscar Proyecto: " + ex.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+
+                if (ps != null) {
+                    ps.close();
+                }
+
+                if (conn != null) {
+                    Conexion.cerrarConexion(conn);
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+
+        return resp;
+
+    }
+    
+    public boolean eliminarProyecto(String idProyecto) {
+        boolean resp = false;
+        this.obtRegistros("SELECT * FROM [GENERAL].[PROYECTO]");
+        try {
+            rs.beforeFirst();
+            while (rs.next()) {
+                if (rs.getString("ID_PROYECTO").equals(idProyecto)) {
+                    rs.deleteRow();
+                    resp = true;
+                    break;
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al eliminar proyecto" + ex.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+
+                if (ps != null) {
+                    ps.close();
+                }
+
+                if (conn != null) {
+                    Conexion.cerrarConexion(conn);
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return resp;
+    }
+
 }

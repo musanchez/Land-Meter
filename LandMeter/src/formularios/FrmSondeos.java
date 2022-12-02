@@ -4,6 +4,7 @@
  */
 package formularios;
 
+import Datos.DMuestra;
 import Datos.DSondeo;
 import entidades.Empresa;
 import entidades.Persona;
@@ -395,10 +396,12 @@ public class FrmSondeos extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        DMuestra dm = new DMuestra();
         FrmMuestras frm = new FrmMuestras();
         frm.setVisible(true);
         this.setVisible(false);
         frm.jTfIdSondeo.setText(this.jTfCoordenadasSondeo.getText());
+        FrmMuestras.TblMuestras.setModel(dm.mostrarMuestras(jTfCoordenadasSondeo.getText()));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

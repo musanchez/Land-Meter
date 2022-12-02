@@ -9,6 +9,8 @@ import Datos.DPersona;
 import entidades.Muestra;
 import entidades.Persona;
 import entidades.Sondeo;
+import static formularios.FrmSondeos.jTblRegistrosSondeos;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
@@ -96,6 +98,16 @@ public class FrmMuestras extends javax.swing.JFrame {
 
             }
         ));
+        TblMuestras.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TblMuestrasMouseClicked(evt);
+            }
+        });
+        TblMuestras.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                TblMuestrasKeyReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(TblMuestras);
 
         jBtnGuardarAM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/guardarFI.png"))); // NOI18N
@@ -326,7 +338,7 @@ public class FrmMuestras extends javax.swing.JFrame {
         // TODO add your handling code here:
         String idMuestra = jTfIdMuestra.getText();
         String idSondeo = jTfIdSondeo.getText();
-
+// guardar
         String nomEnsayista = jTfEnsayista.getText();
         String idEnsayista = jTfIdEnsayista.getText();
         String tel = jTfTelefono.getText();
@@ -354,6 +366,43 @@ public class FrmMuestras extends javax.swing.JFrame {
         jTfTelefono.setText("");
         jTfCorreo.setText("");
     }
+    
+     private void ubicarDatosSondeos() {
+        
+        int fila = TblMuestras.getSelectedRow();
+        Object idMuestra = this.TblMuestras.getValueAt(fila,0);
+        Object pesoInicial = this.TblMuestras.getValueAt(fila, 1);
+        Object pesoFinal = this.TblMuestras.getValueAt(fila, 2);
+        Object identificacionEn = this.TblMuestras.getValueAt(fila,3);
+        Object nombreEnsayista = this.TblMuestras.getValueAt(fila, 4);
+        Object correoE = this.TblMuestras.getValueAt(fila,5);
+        Object telefono = this.TblMuestras.getValueAt(fila, 6);
+        
+        String id = String.valueOf(idMuestra);
+        String peso = String.valueOf(pesoInicial);
+        String pesoF = String.valueOf(pesoFinal);
+        String idE = String.valueOf(identificacionEn);
+        String nombreE = String.valueOf(nombreEnsayista);
+        String correo = String.valueOf(correoE);
+        String telefonoE = String.valueOf(telefono);
+        
+        this.jTfCorreo.setText(correo);
+        this.jTfEnsayista.setText(nombreE);
+        this.jTfIdMuestra.setText(id);
+        this.jTfPesoInicial.setText(peso);
+        this.jTfIdEnsayista.setText(idE);
+        this.jTfTelefono.setText(telefonoE);
+        //this.jtf
+     
+       // this.jTfCoordenadasSondeo.setText(coordenadasSondeo);
+       // jTfCoordenadasSondeo.setEditable(false);
+       // this.jTfFechaSondeo.setText(fechaSondeo);
+
+           jBtnGuardarAM.setEnabled(false);
+            jBtnEditarAM.setEnabled(true);
+           jBtnEliminarAM.setEnabled(true);
+          
+    }
     private void jTfIdMuestraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTfIdMuestraActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTfIdMuestraActionPerformed
@@ -365,6 +414,18 @@ public class FrmMuestras extends javax.swing.JFrame {
     private void jTfCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTfCorreoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTfCorreoActionPerformed
+
+    private void TblMuestrasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TblMuestrasKeyReleased
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_UP || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            ubicarDatosSondeos();
+        }
+    }//GEN-LAST:event_TblMuestrasKeyReleased
+
+    private void TblMuestrasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblMuestrasMouseClicked
+        // TODO add your handling code here:
+        ubicarDatosSondeos();
+    }//GEN-LAST:event_TblMuestrasMouseClicked
 
     /**
      * @param args the command line arguments
@@ -403,7 +464,7 @@ public class FrmMuestras extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TblGranulometria;
-    private javax.swing.JTable TblMuestras;
+    public static javax.swing.JTable TblMuestras;
     private javax.swing.JButton jBtnEditarAM;
     private javax.swing.JButton jBtnEditarG;
     private javax.swing.JButton jBtnEliminarAM;

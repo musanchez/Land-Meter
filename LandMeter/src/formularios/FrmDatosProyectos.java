@@ -14,6 +14,7 @@ import entidades.Empresa;
 import entidades.Persona;
 import entidades.Proyecto;
 import entidades.RepresentantexEmpresa;
+import static formularios.FrmSondeos.jTblRegistrosSondeos;
 import java.awt.HeadlessException;
 import java.util.Date;
 
@@ -593,6 +594,11 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
         jBtnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/eliminarFI.png"))); // NOI18N
         jBtnEliminar.setText("Eliminar");
         jBtnEliminar.setEnabled(false);
+        jBtnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnEliminarActionPerformed(evt);
+            }
+        });
 
         jBtnSondeo.setBackground(new java.awt.Color(255, 153, 51));
         jBtnSondeo.setFont(new java.awt.Font("Cambria", 1, 12)); // NOI18N
@@ -1001,6 +1007,27 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
     private void jRbtnRepresentanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRbtnRepresentanteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jRbtnRepresentanteActionPerformed
+
+    private void jBtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEliminarActionPerformed
+        // TODO add your handling code here:
+         this.verificarDatosVacios();
+        int resp = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este proyecto?",
+                "Proyecto",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        if(resp ==0){
+            if(dProyecto.eliminarProyecto(jTfIdProyecto.getText())){
+                JOptionPane.showMessageDialog(this, "Proyecto Eliminado",
+                        "Proyecto",JOptionPane.INFORMATION_MESSAGE);
+                limpiar();
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Error al eliminar",
+                        "Proyecto",JOptionPane.WARNING_MESSAGE);
+            }
+        }
+       this.jTblRegistrosProyectos.setModel(dProyecto.mostrarProyectos());
+       jTblRegistrosProyectos.clearSelection();
+        limpiar();
+    }//GEN-LAST:event_jBtnEliminarActionPerformed
 
     /**
      * @param args the command line arguments

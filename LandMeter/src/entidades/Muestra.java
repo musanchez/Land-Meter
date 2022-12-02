@@ -19,6 +19,17 @@ public class Muestra {
     public Muestra() {
     }
 
+    public Muestra(String IDMuestra, double pesoInicial, Sondeo coordenadas, Persona ensayista) {
+        this.IDMuestra = IDMuestra;
+        this.pesoInicial = pesoInicial;
+        this.coordenadas = coordenadas;
+        this.ensayista = ensayista;
+    }
+
+    public Muestra(String IDMuestra) {
+        this.IDMuestra = IDMuestra;
+    }
+
     public Persona getEnsayista() {
         return ensayista;
     }

@@ -12,21 +12,20 @@ public class Tamiz {
     
     private String tamanioPul;
     private String tamanioMm;
+    private int id;
+
+    @Override
+    public String toString() {
+        return tamanioMm;
+    }
 
     public Tamiz() {
     }
 
-    public Tamiz(String tamanioPul, String tamanioMm) {
+    public Tamiz(String tamanioPul, String tamanioMm, int id) {
         this.tamanioPul = tamanioPul;
         this.tamanioMm = tamanioMm;
-    }
-
-    public String getTamanioMm() {
-        return tamanioMm;
-    }
-
-    public void setTamanioMm(String tamanioMm) {
-        this.tamanioMm = tamanioMm;
+        this.id = id;
     }
 
     public String getTamanioPul() {
@@ -37,10 +36,23 @@ public class Tamiz {
         this.tamanioPul = tamanioPul;
     }
 
-    @Override
-    public String toString() {
-        return "Tamiz{" + "tamanioPul=" + tamanioPul + ", tamanioMm=" + tamanioMm + '}';
+    public String getTamanioMm() {
+        return tamanioMm;
     }
+
+    public void setTamanioMm(String tamanioMm) {
+        this.tamanioMm = tamanioMm;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    
     
     
 }

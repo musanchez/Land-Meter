@@ -45,7 +45,6 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
     DRepresentantexEmpresa drexemp = new DRepresentantexEmpresa();
     TableRowSorter trsFiltro;
     DSondeo dsond = new DSondeo();
-
     /**
      * Creates new form FrmDatosProyectos
      */

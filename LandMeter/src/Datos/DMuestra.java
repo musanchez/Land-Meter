@@ -18,10 +18,11 @@ import javax.swing.table.DefaultTableModel;
  * @author ale05
  */
 public class DMuestra {
+
     private Connection conn = null;
     private PreparedStatement ps = null;
     private ResultSet rs = null;
-    
+
     public void obtRegistros() {
         try {
             conn = Conexion.obtConexion();
@@ -35,14 +36,14 @@ public class DMuestra {
             System.out.println("Error al obtener registros de muestra: " + ex.getMessage());
         }
     }
-    
+
     public boolean guardarMuestra1(Muestra a) {
         boolean guardado = false;
         this.obtRegistros();
         try {
             rs.moveToInsertRow();
             rs.updateString("ID_MUESTRA", a.getIDMuestra());
-            //rs.updateDouble("PESO INICIAL", string1);
+            rs.updateDouble("PESO_INICIAL", a.getPesoInicial());
             rs.updateString("COORDENADAS", a.getCoordenadas().getCoordenadas());
             rs.updateString("ID_PERSONA", a.getEnsayista().getID_Persona());
             rs.insertRow();
@@ -69,7 +70,7 @@ public class DMuestra {
         }
         return guardado;
     }
-    
+
     public DefaultTableModel mostrarMuestras(String idConsulta) {
         // muestra datos de vista creada en sql
         DefaultTableModel dtm = new DefaultTableModel() {
@@ -79,19 +80,19 @@ public class DMuestra {
             }
         };
 
-        String encabezados[] = {"ID Muestra", "Peso Inicial","Peso Final","ID Ensayista","Nombre","Correo","Telefono"};
+        String encabezados[] = {"ID Muestra", "Peso Inicial", "Peso Final", "ID Ensayista", "Nombre", "Correo", "Telefono"};
         dtm.setColumnIdentifiers(encabezados);
 
         //muestra datos de consulta en sql
         try {
             ResultSet rs_consultaMuestra = null;
             conn = Conexion.obtConexion();
-            String ConsultaSQL = "SELECT ID_MUESTRA,(CASE WHEN PESO_INICIAL IS NULL THEN '0'\n" +
-            "END) AS PESO_INICIAL, (CASE WHEN PESO_FINAL IS NULL THEN '0' END) AS PESO_FINAL,P.ID_PERSONA, P.NOMBRE_PERSONA,P.CORREO,P.TELEFONO\n" +
-            "FROM [GRANULOMETRIA].[MUESTRA] M INNER JOIN [GENERAL].[PERSONA] P ON M.ID_PERSONA=P.ID_PERSONA\n" +
-            "WHERE COORDENADAS = " +idConsulta;
+            String ConsultaSQL = "SELECT ID_MUESTRA,(CASE WHEN PESO_INICIAL IS NULL THEN '0'\n"
+                    + "END) AS PESO_INICIAL, (CASE WHEN PESO_FINAL IS NULL THEN '0' END) AS PESO_FINAL,P.ID_PERSONA, P.NOMBRE_PERSONA,P.CORREO,P.TELEFONO\n"
+                    + "FROM [GRANULOMETRIA].[MUESTRA] M INNER JOIN [GENERAL].[PERSONA] P ON M.ID_PERSONA=P.ID_PERSONA\n"
+                    + "WHERE COORDENADAS = " + idConsulta;
             ps = conn.prepareStatement(ConsultaSQL, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE, ResultSet.HOLD_CURSORS_OVER_COMMIT);
-           
+
             rs_consultaMuestra = ps.executeQuery();
 
             while (rs_consultaMuestra.next()) {
@@ -113,7 +114,7 @@ public class DMuestra {
         return dtm;
     }
 
-     public boolean editarMuestra(Muestra muestra) {
+    public boolean editarMuestra(Muestra muestra) {
 
         /*
         boolean resp = false;
@@ -150,9 +151,25 @@ public class DMuestra {
             }
         }
         return resp;
-    */
+         */
         return false;
     }
-   
-    
+
+    public void agregarPesoFinal(float pf, String id) {
+        String tSQL = "UPDATE [GRANULOMETRIA].[MUESTRA] "
+                + "SET PESO_FINAL = ? WHERE ID_MUESTRA = ?";
+        try {
+            conn = Conexion.obtConexion();
+            ps = conn.prepareStatement(tSQL,
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            ps.setDouble(1, pf);
+            ps.setString(2, id);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Error al actualizar el peso final");
+        }
+
+    }
 }

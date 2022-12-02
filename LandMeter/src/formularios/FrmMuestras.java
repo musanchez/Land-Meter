@@ -5,13 +5,20 @@
 package formularios;
 
 import Datos.DMuestra;
+import Datos.DMuestraxTamiz;
 import Datos.DPersona;
+import Datos.DTamiz;
 import entidades.Muestra;
+import entidades.MuestraxTamiz;
 import entidades.Persona;
 import entidades.Sondeo;
+import entidades.Tamiz;
 import static formularios.FrmSondeos.jTblRegistrosSondeos;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
@@ -29,10 +36,13 @@ public class FrmMuestras extends javax.swing.JFrame {
     public FrmMuestras() {
         initComponents();
         jTfIdSondeo.setEnabled(false);
+        fillCombo();
     }
-
+    
     DPersona dper = new DPersona();
     DMuestra dmues = new DMuestra();
+    DTamiz dtam = new DTamiz();
+    DMuestraxTamiz dmxt = new DMuestraxTamiz();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -62,16 +72,18 @@ public class FrmMuestras extends javax.swing.JFrame {
         jTfTelefono = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jTfCorreo = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jTfPesoInicial = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TblGranulometria = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jTfPesoRet = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jCmbTam = new javax.swing.JComboBox<>();
         jBtnGuardarG = new javax.swing.JButton();
         jBtnEditarG = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jTfPesoInicial = new javax.swing.JTextField();
+        jTfPesoFinal = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -142,49 +154,65 @@ public class FrmMuestras extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setText("Peso Inicial: ");
+
+        jTfPesoInicial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTfPesoInicialActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(48, 48, 48)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(237, 237, 237)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jTfIdSondeo, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTfIdEnsayista, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTfEnsayista, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(45, 45, 45)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTfCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTfIdMuestra, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jBtnGuardarAM)
-                                .addGap(39, 39, 39)
-                                .addComponent(jBtnEditarAM)
-                                .addGap(18, 18, 18)
-                                .addComponent(jBtnEliminarAM))
-                            .addComponent(jTfTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(16, 16, 16)))
-                .addGap(23, 23, 23))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jBtnGuardarAM)
+                                        .addGap(39, 39, 39)
+                                        .addComponent(jBtnEditarAM)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jBtnEliminarAM))
+                                    .addComponent(jTfTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(16, 16, 16))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addGap(579, 579, 579)
+                                .addComponent(jTfPesoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(237, 237, 237)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTfIdMuestra, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTfIdSondeo, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTfIdEnsayista, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTfEnsayista, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(45, 45, 45)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTfCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(82, 82, 82))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,7 +221,9 @@ public class FrmMuestras extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel1)
-                    .addComponent(jTfIdMuestra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTfIdMuestra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(jTfPesoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -222,7 +252,7 @@ public class FrmMuestras extends javax.swing.JFrame {
                                 .addComponent(jTfIdEnsayista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jBtnEliminarAM)))
                     .addComponent(jTfEnsayista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -243,70 +273,71 @@ public class FrmMuestras extends javax.swing.JFrame {
 
         jLabel4.setText("Peso Retenido por el Tamiz:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "75 mm", "63 mm", "50 mm", "31.5 mm", "25 mm", "19 mm", "12.5 mm", "9.5 mm", "4.75 mm", "pasa 4.75 mm", "2.36 MIC", "2.00 MIC", "1.18 MIC", "600 MIC", "425 MIC", "300 MIC", "150 MIC", "75 MIC", "Pasa 75 MIC" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        jCmbTam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                jCmbTamActionPerformed(evt);
             }
         });
 
         jBtnGuardarG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/guardarFI.png"))); // NOI18N
+        jBtnGuardarG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnGuardarGActionPerformed(evt);
+            }
+        });
 
         jBtnEditarG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/editarFI.png"))); // NOI18N
 
-        jLabel5.setText("Peso Inicial");
+        jLabel5.setText("Peso Final");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(32, 32, 32)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTfPesoInicial, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-                            .addComponent(jComboBox1, 0, 1, Short.MAX_VALUE))
+                            .addComponent(jTfPesoFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCmbTam, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTfPesoRet, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(71, 71, 71)
                         .addComponent(jBtnGuardarG)
                         .addGap(18, 18, 18)
                         .addComponent(jBtnEditarG)))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTfPesoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTfPesoFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(jBtnGuardarG))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBtnEditarG)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(21, 21, 21)
+                            .addComponent(jBtnGuardarG))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jBtnEditarG)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCmbTam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTfPesoRet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Granulometria", jPanel1);
@@ -339,31 +370,32 @@ public class FrmMuestras extends javax.swing.JFrame {
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void jCmbTamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCmbTamActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_jCmbTamActionPerformed
 
     private void jBtnGuardarAMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGuardarAMActionPerformed
         // TODO add your handling code here:
         String idMuestra = jTfIdMuestra.getText();
         String idSondeo = jTfIdSondeo.getText();
+        double pesoin = Double.parseDouble(jTfPesoInicial.getText());
 // guardar
         String nomEnsayista = jTfEnsayista.getText();
         String idEnsayista = jTfIdEnsayista.getText();
         String tel = jTfTelefono.getText();
         String correo = jTfCorreo.getText();
-
+        
         Sondeo son = new Sondeo(idSondeo);
-
+        
         Persona per = new Persona(nomEnsayista, idEnsayista, correo, tel);
-
-        Muestra mues = new Muestra(idMuestra, son, per);
+        
+        Muestra mues = new Muestra(idMuestra, pesoin, son, per);
         if (!dper.inPersona(idEnsayista)) {
             dper.guardarPersona(per, 3);
             dper.guardarPersona(per, 2);
@@ -371,6 +403,7 @@ public class FrmMuestras extends javax.swing.JFrame {
             dper.guardarPersona(per, 2);
         }
         dmues.guardarMuestra1(mues);
+        TblMuestras.setModel(dmues.mostrarMuestras(idSondeo));
         limpiar();
     }//GEN-LAST:event_jBtnGuardarAMActionPerformed
     private void limpiar() {
@@ -382,15 +415,15 @@ public class FrmMuestras extends javax.swing.JFrame {
         jTfCorreo.setText("");
     }
     
-     private void ubicarDatosSondeos() {
+    private void ubicarDatosSondeos() {
         
         int fila = TblMuestras.getSelectedRow();
-        Object idMuestra = this.TblMuestras.getValueAt(fila,0);
+        Object idMuestra = this.TblMuestras.getValueAt(fila, 0);
         Object pesoInicial = this.TblMuestras.getValueAt(fila, 1);
         Object pesoFinal = this.TblMuestras.getValueAt(fila, 2);
-        Object identificacionEn = this.TblMuestras.getValueAt(fila,3);
+        Object identificacionEn = this.TblMuestras.getValueAt(fila, 3);
         Object nombreEnsayista = this.TblMuestras.getValueAt(fila, 4);
-        Object correoE = this.TblMuestras.getValueAt(fila,5);
+        Object correoE = this.TblMuestras.getValueAt(fila, 5);
         Object telefono = this.TblMuestras.getValueAt(fila, 6);
         
         String id = String.valueOf(idMuestra);
@@ -404,19 +437,18 @@ public class FrmMuestras extends javax.swing.JFrame {
         this.jTfCorreo.setText(correo);
         this.jTfEnsayista.setText(nombreE);
         this.jTfIdMuestra.setText(id);
-        this.jTfPesoInicial.setText(peso);
+        this.jTfPesoFinal.setText(peso);
         this.jTfIdEnsayista.setText(idE);
         this.jTfTelefono.setText(telefonoE);
         //this.jtf
-     
-       // this.jTfCoordenadasSondeo.setText(coordenadasSondeo);
-       // jTfCoordenadasSondeo.setEditable(false);
-       // this.jTfFechaSondeo.setText(fechaSondeo);
 
-           jBtnGuardarAM.setEnabled(false);
-            jBtnEditarAM.setEnabled(true);
-           jBtnEliminarAM.setEnabled(true);
-          
+        // this.jTfCoordenadasSondeo.setText(coordenadasSondeo);
+        // jTfCoordenadasSondeo.setEditable(false);
+        // this.jTfFechaSondeo.setText(fechaSondeo);
+        jBtnGuardarAM.setEnabled(false);
+        jBtnEditarAM.setEnabled(true);
+        jBtnEliminarAM.setEnabled(true);
+        
     }
     private void jTfIdMuestraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTfIdMuestraActionPerformed
         // TODO add your handling code here:
@@ -449,6 +481,33 @@ public class FrmMuestras extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jTfPesoInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTfPesoInicialActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTfPesoInicialActionPerformed
+
+    private void jBtnGuardarGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGuardarGActionPerformed
+        // TODO add your handling code here:
+        String tamiz = jCmbTam.getSelectedItem().toString();
+        double peso_ret = Double.parseDouble(jTfPesoRet.getText());
+        String id_muestra = jTfIdMuestra.getText();
+        Tamiz tam = dtam.genTamiz(tamiz);
+        Muestra mues = new Muestra(id_muestra);
+        MuestraxTamiz mxt = new MuestraxTamiz(peso_ret, tam, mues); 
+        dmxt.agregarMuestraxTamiz(mxt);    
+    }//GEN-LAST:event_jBtnGuardarGActionPerformed
+
+    private void fillCombo() {
+        jCmbTam.removeAllItems();
+        ArrayList<Tamiz> tam = new ArrayList<Tamiz>();
+        try {
+            tam = dtam.listarTam();
+            for (Tamiz a : tam) {
+                jCmbTam.addItem(a);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmDatosProyectos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -493,7 +552,7 @@ public class FrmMuestras extends javax.swing.JFrame {
     private javax.swing.JButton jBtnGuardarAM;
     private javax.swing.JButton jBtnGuardarG;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<Tamiz> jCmbTam;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -502,6 +561,7 @@ public class FrmMuestras extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -512,6 +572,7 @@ public class FrmMuestras extends javax.swing.JFrame {
     private javax.swing.JTextField jTfIdEnsayista;
     private javax.swing.JTextField jTfIdMuestra;
     public static javax.swing.JTextField jTfIdSondeo;
+    private javax.swing.JTextField jTfPesoFinal;
     private javax.swing.JTextField jTfPesoInicial;
     private javax.swing.JTextField jTfPesoRet;
     private javax.swing.JTextField jTfTelefono;

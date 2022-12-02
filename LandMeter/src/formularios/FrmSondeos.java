@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import static java.time.Clock.system;
 import java.time.LocalDate;
 import java.util.Date;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 
 
@@ -244,6 +245,11 @@ public class FrmSondeos extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Cambria", 1, 12)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/muestras.png"))); // NOI18N
         jButton1.setText("Muestras");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -362,7 +368,9 @@ public class FrmSondeos extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(this,"Error al guardar Sondeo", "Error",JOptionPane.WARNING_MESSAGE);
         }
         jTblRegistrosSondeos.setModel(dsondeo.mostrarSondeos(FrmSondeos.jTfIdProyect.getText()));  
-        
+        jBtnEditarSondeo.setEnabled(false);
+        jBtnEliminarSondeo.setEnabled(false);
+        jBtnGuardarSondeo.setEnabled(true);
         
     }//GEN-LAST:event_jBtnEditarSondeoActionPerformed
 
@@ -384,6 +392,14 @@ public class FrmSondeos extends javax.swing.JFrame {
         jTblRegistrosSondeos.setModel(dsondeo.mostrarSondeos(FrmSondeos.jTfIdProyect.getText()));
         limpiar();
     }//GEN-LAST:event_jBtnEliminarSondeoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        FrmMuestras frm = new FrmMuestras();
+        frm.setVisible(true);
+        this.setVisible(false);
+        frm.jTfIdSondeo.setText(this.jTfCoordenadasSondeo.getText());
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

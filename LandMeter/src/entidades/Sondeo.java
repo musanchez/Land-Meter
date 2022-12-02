@@ -18,6 +18,9 @@ public class Sondeo {
     public Sondeo() {
     }
 
+    public Sondeo(String coordenadas) {
+        this.coordenadas = coordenadas;
+    }
 
     public Sondeo(Proyecto proyecto, Date fecha, String coordenadas) {
         this.proyecto = proyecto;

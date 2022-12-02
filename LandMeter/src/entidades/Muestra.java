@@ -14,9 +14,39 @@ public class Muestra {
     private double pesoInicial;
     private double pesoFinal;
     private Sondeo coordenadas;
+    private Persona ensayista;
 
     public Muestra() {
     }
+
+    public Persona getEnsayista() {
+        return ensayista;
+    }
+
+    public void setEnsayista(Persona ensayista) {
+        this.ensayista = ensayista;
+    }
+
+    public Muestra(String IDMuestra, double pesoInicial, double pesoFinal, Sondeo coordenadas, Persona ensayista) {
+        this.IDMuestra = IDMuestra;
+        this.pesoInicial = pesoInicial;
+        this.pesoFinal = pesoFinal;
+        this.coordenadas = coordenadas;
+        this.ensayista = ensayista;
+    }
+    
+
+    public Muestra(String IDMuestra, Sondeo coordenadas) {
+        this.IDMuestra = IDMuestra;
+        this.coordenadas = coordenadas;
+    }
+
+    public Muestra(String IDMuestra, Sondeo coordenadas, Persona ensayista) {
+        this.IDMuestra = IDMuestra;
+        this.coordenadas = coordenadas;
+        this.ensayista = ensayista;
+    }
+    
 
     public Muestra(String IDMuestra, double pesoInicial, double pesoFinal, Sondeo coordenadas) {
         this.IDMuestra = IDMuestra;

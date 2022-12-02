@@ -33,15 +33,15 @@ public class DMuestra {
         }
     }
     
-    public boolean guardarMuestra(Muestra a) {
+    public boolean guardarMuestra1(Muestra a) {
         boolean guardado = false;
         this.obtRegistros();
         try {
             rs.moveToInsertRow();
             rs.updateString("ID_MUESTRA", a.getIDMuestra());
             //rs.updateDouble("PESO INICIAL", string1);
-            //rs.updateString("COORDENADAS", a.getCoordenadas());
-            
+            rs.updateString("COORDENADAS", a.getCoordenadas().getCoordenadas());
+            rs.updateString("ID_PERSONA", a.getEnsayista().getID_Persona());
             rs.insertRow();
             rs.moveToCurrentRow();
             guardado = true;
@@ -66,4 +66,6 @@ public class DMuestra {
         }
         return guardado;
     }
+   
+    
 }

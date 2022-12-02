@@ -158,14 +158,38 @@ public class DPersona {
         }
 
         return resp;
-
     }
-
     public boolean inPersona(String id) {
         boolean resp = false;
         int cant;
         String tSQL = "SELECT COUNT(*) AS CANTIDAD\n"
                 + "FROM [GENERAL].[PERSONA]\n"
+                + "WHERE [ID_PERSONA] = '" + id + "'";
+        try {
+            conn = Conexion.obtConexion();
+            ps = conn.prepareStatement(tSQL,
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            rs = ps.executeQuery();
+            rs.next();
+            cant = rs.getInt("CANTIDAD");
+            System.out.println(cant);
+            if (cant > 0) {
+                resp = true;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error");
+        }
+
+        return resp;
+    }
+
+    public boolean inEnsayista(String id) {
+        boolean resp = false;
+        int cant;
+        String tSQL = "SELECT COUNT(*) AS CANTIDAD\n"
+                + "FROM [GENERAL].[ENSAYISTA]\n"
                 + "WHERE [ID_PERSONA] = '" + id + "'";
         try {
             conn = Conexion.obtConexion();

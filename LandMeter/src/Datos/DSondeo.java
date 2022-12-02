@@ -105,6 +105,7 @@ public class DSondeo {
               java.util.Date dbSqlDateConverted = new java.util.Date(dbSqlDate.getTime());
               SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
               String formato = simpleDateFormat.format(dbSqlDateConverted);
+              
               registro[1] = formato;
               
                

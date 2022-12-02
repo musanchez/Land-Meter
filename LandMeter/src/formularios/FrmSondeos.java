@@ -67,6 +67,7 @@ public class FrmSondeos extends javax.swing.JFrame {
         jBtnEditarSondeo = new javax.swing.JButton();
         jBtnEliminarSondeo = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jBtnReg1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -148,7 +149,7 @@ public class FrmSondeos extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTfIdProyect, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(3, 3, 3)
                 .addComponent(jTfNomProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -252,6 +253,14 @@ public class FrmSondeos extends javax.swing.JFrame {
             }
         });
 
+        jBtnReg1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/regresar.png"))); // NOI18N
+        jBtnReg1.setText("Regresar");
+        jBtnReg1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnReg1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -268,6 +277,10 @@ public class FrmSondeos extends javax.swing.JFrame {
                     .addComponent(jButton1))
                 .addContainerGap())
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(343, 343, 343)
+                .addComponent(jBtnReg1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,7 +299,9 @@ public class FrmSondeos extends javax.swing.JFrame {
                         .addComponent(jBtnEliminarSondeo)
                         .addGap(34, 34, 34)
                         .addComponent(jButton1)))
-                .addContainerGap(91, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtnReg1)
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         pack();
@@ -404,6 +419,13 @@ public class FrmSondeos extends javax.swing.JFrame {
         FrmMuestras.TblMuestras.setModel(dm.mostrarMuestras(jTfCoordenadasSondeo.getText()));
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jBtnReg1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnReg1ActionPerformed
+        // TODO add your handling code here:
+        FrmDatosProyectos frmReg2 = new FrmDatosProyectos();
+        frmReg2.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jBtnReg1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -494,6 +516,7 @@ public class FrmSondeos extends javax.swing.JFrame {
     private javax.swing.JButton jBtnEditarSondeo;
     private javax.swing.JButton jBtnEliminarSondeo;
     private javax.swing.JButton jBtnGuardarSondeo;
+    private javax.swing.JButton jBtnReg1;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

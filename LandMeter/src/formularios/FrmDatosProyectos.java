@@ -117,9 +117,9 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
 
     private void filtrarTabla(String x) {
 
-        trsFiltro.setRowFilter(RowFilter.regexFilter(TfBuscar.getText(), 0));
+        //trsFiltro.setRowFilter(RowFilter.regexFilter(TfBuscar.getText(), 0));
         //PARA CASE SENSITIVE
-        //trsFiltro.setRowFilter(RowFilter.regexFilter("(?i)"+x));
+        trsFiltro.setRowFilter(RowFilter.regexFilter("(?i)"+x));
 
     }
 
@@ -1031,9 +1031,19 @@ public class FrmDatosProyectos extends javax.swing.JFrame {
                         "Proyecto",JOptionPane.WARNING_MESSAGE);
             }
         }
-       this.jTblRegistrosProyectos.setModel(dProyecto.mostrarProyectos());
-       jTblRegistrosProyectos.clearSelection();
-        limpiar();
+        this.fillCombo();
+        this.limpiar();
+        this.fillComboRep();
+        this.jTblRegistrosProyectos.setModel(dProyecto.mostrarProyectos());
+        jTblRegistrosProyectos.clearSelection();
+        regSelected();
+        jBtnEditar.setEnabled(false);
+        jBtnEliminar.setEnabled(false);
+        jBtnSondeo.setEnabled(false);
+        jBtnGuardarProyecto.setEnabled(true);
+        jTfRUC.setEnabled(true);
+        jTfIdProyecto.setEnabled(true);
+        jTfIdentificacionRepresentante.setEnabled(true);
     }//GEN-LAST:event_jBtnEliminarActionPerformed
 
     /**

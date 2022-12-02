@@ -12,6 +12,7 @@ import entidades.RepresentantexEmpresa;
 import entidades.Sondeo;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
+import static java.time.Clock.system;
 import java.time.LocalDate;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -63,6 +64,7 @@ public class FrmSondeos extends javax.swing.JFrame {
         jTblRegistrosSondeos = new javax.swing.JTable();
         jBtnEditarSondeo = new javax.swing.JButton();
         jBtnEliminarSondeo = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -224,10 +226,24 @@ public class FrmSondeos extends javax.swing.JFrame {
         jBtnEditarSondeo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/editarFI.png"))); // NOI18N
         jBtnEditarSondeo.setText("Editar");
         jBtnEditarSondeo.setEnabled(false);
+        jBtnEditarSondeo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnEditarSondeoActionPerformed(evt);
+            }
+        });
 
         jBtnEliminarSondeo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/eliminarFI.png"))); // NOI18N
         jBtnEliminarSondeo.setText("Eliminar");
         jBtnEliminarSondeo.setEnabled(false);
+        jBtnEliminarSondeo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnEliminarSondeoActionPerformed(evt);
+            }
+        });
+
+        jButton1.setFont(new java.awt.Font("Cambria", 1, 12)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/muestras.png"))); // NOI18N
+        jButton1.setText("Muestras");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -238,10 +254,11 @@ public class FrmSondeos extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jBtnEditarSondeo)
-                    .addComponent(jBtnEliminarSondeo))
+                    .addComponent(jBtnEliminarSondeo)
+                    .addComponent(jButton1))
                 .addContainerGap())
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -259,7 +276,9 @@ public class FrmSondeos extends javax.swing.JFrame {
                         .addGap(58, 58, 58)
                         .addComponent(jBtnEditarSondeo)
                         .addGap(29, 29, 29)
-                        .addComponent(jBtnEliminarSondeo)))
+                        .addComponent(jBtnEliminarSondeo)
+                        .addGap(34, 34, 34)
+                        .addComponent(jButton1)))
                 .addContainerGap(91, Short.MAX_VALUE))
         );
 
@@ -278,6 +297,8 @@ public class FrmSondeos extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(this,"Error al guardar fecha", "Error",JOptionPane.WARNING_MESSAGE);
         }
         
+        try{
+            
         String coordenadas = jTfCoordenadasSondeo.getText();
         
         Proyecto idProyecto = new Proyecto();
@@ -287,8 +308,13 @@ public class FrmSondeos extends javax.swing.JFrame {
         Sondeo sondeo = new Sondeo(idProyecto,fechaSondeo,coordenadas);
         
         dsondeo.guardarSondeo(sondeo);
-       
-        
+        JOptionPane.showMessageDialog(this,"Registro Guardado", "Sondeo",JOptionPane.INFORMATION_MESSAGE);
+         
+        }catch(Exception ex){
+        JOptionPane.showMessageDialog(this,"Error al guardar", "Sondeo",JOptionPane.WARNING_MESSAGE);
+        }
+       jTblRegistrosSondeos.setModel(dsondeo.mostrarSondeos(FrmSondeos.jTfIdProyect.getText()));  
+       limpiar();
     }//GEN-LAST:event_jBtnGuardarSondeoActionPerformed
 
     private void jTblRegistrosSondeosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTblRegistrosSondeosKeyReleased
@@ -302,6 +328,62 @@ public class FrmSondeos extends javax.swing.JFrame {
         // TODO add your handling code here:
         ubicarDatosSondeos();
     }//GEN-LAST:event_jTblRegistrosSondeosMouseClicked
+
+    private void jBtnEditarSondeoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEditarSondeoActionPerformed
+        // TODO add your handling code here:
+        this.verificarDatosVacios();
+       // Proyecto proyecto, Date fecha, String coordenadas
+        Proyecto idP = new Proyecto();
+        idP.setIDProyecto(jTfIdProyect.getText());
+        String coordenadas = jTfCoordenadasSondeo.getText();
+        System.out.println(idP.getIDProyecto());
+        //String coordenadasA = jTfCoordenadasSondeo.getText();
+        
+         // conversion fecha java a sq
+         Date fechaSondeo = new Date();
+         SimpleDateFormat formato = new SimpleDateFormat ("yyyy-MM-dd");
+         
+        try{
+            
+            fechaSondeo = formato.parse(jTfFechaSondeo.getText());
+            Sondeo sondeo = new Sondeo(idP,fechaSondeo,coordenadas);
+            dsondeo.editarSondeo(sondeo);
+            limpiar();
+            
+            /*
+            if(dsondeo.editarSondeo(sondeo)){
+                JOptionPane.showMessageDialog(this, "Registro Editado.",
+                "Sondeo",JOptionPane.INFORMATION_MESSAGE);
+             }
+            
+            */
+            
+        } catch(Exception ex ){
+           JOptionPane.showMessageDialog(this,"Error al guardar Sondeo", "Error",JOptionPane.WARNING_MESSAGE);
+        }
+        jTblRegistrosSondeos.setModel(dsondeo.mostrarSondeos(FrmSondeos.jTfIdProyect.getText()));  
+        
+        
+    }//GEN-LAST:event_jBtnEditarSondeoActionPerformed
+
+    private void jBtnEliminarSondeoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEliminarSondeoActionPerformed
+        // TODO add your handling code here:
+         this.verificarDatosVacios();
+        int resp = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este registro?",
+                "Sondeo",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        if(resp ==0){
+            if(dsondeo.eliminarSondeo(jTfCoordenadasSondeo.getText())){
+                JOptionPane.showMessageDialog(this, "Sondeo Eliminado",
+                        "Sondeo",JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Error al eliminar",
+                        "Sondeo",JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        jTblRegistrosSondeos.setModel(dsondeo.mostrarSondeos(FrmSondeos.jTfIdProyect.getText()));
+        limpiar();
+    }//GEN-LAST:event_jBtnEliminarSondeoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -355,6 +437,7 @@ public class FrmSondeos extends javax.swing.JFrame {
         */
 
         this.jTfCoordenadasSondeo.setText(coordenadasSondeo);
+       // jTfCoordenadasSondeo.setEditable(false);
         this.jTfFechaSondeo.setText(fechaSondeo);
 
             jBtnGuardarSondeo.setEnabled(false);
@@ -362,11 +445,37 @@ public class FrmSondeos extends javax.swing.JFrame {
             jBtnEliminarSondeo.setEnabled(true);
           
     }
+    
+    private void verificarDatosVacios() {
+        
+        if (jTfCoordenadasSondeo.getText().equals("") || jTfCoordenadasSondeo.getText().length() == 0) {
+            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"
+                    + " no esten vacíos.", "Sondeo", JOptionPane.WARNING_MESSAGE);
+            jTfCoordenadasSondeo.requestFocus();
+            
+        }
+        
+        if (jTfFechaSondeo.getText().equals("") || jTfFechaSondeo.getText().length() == 0) {
+            JOptionPane.showMessageDialog(this, "Por favor verifique que los campos"
+                    + " no esten vacíos.", "Sondeo", JOptionPane.WARNING_MESSAGE);
+            jTfFechaSondeo.requestFocus();
+            
+        }
+        
+        
+    }
+    
+    private void limpiar(){
+        jTfCoordenadasSondeo.setText("");
+        jTfFechaSondeo.setText("");
+        jTfFechaSondeo.requestFocus();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnEditarSondeo;
     private javax.swing.JButton jBtnEliminarSondeo;
     private javax.swing.JButton jBtnGuardarSondeo;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

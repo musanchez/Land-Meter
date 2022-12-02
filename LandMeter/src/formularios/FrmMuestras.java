@@ -4,10 +4,12 @@
  */
 package formularios;
 
+import Datos.Conexion;
 import Datos.DMuestra;
 import Datos.DMuestraxTamiz;
 import Datos.DPersona;
 import Datos.DTamiz;
+import com.sun.jdi.connect.spi.Connection;
 import entidades.Muestra;
 import entidades.MuestraxTamiz;
 import entidades.Persona;
@@ -15,6 +17,8 @@ import entidades.Sondeo;
 import entidades.Tamiz;
 import static formularios.FrmSondeos.jTblRegistrosSondeos;
 import java.awt.event.KeyEvent;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -37,7 +41,12 @@ public class FrmMuestras extends javax.swing.JFrame {
         initComponents();
         jTfIdSondeo.setEnabled(false);
         fillCombo();
+        this.jTblGranulometria1.setModel(dmxt.mostrargGranulometria1());
+        this.jTblGranulometria2.setModel(dmxt.mostrargGranulometria2());
+        
     }
+    
+    
     
     DPersona dper = new DPersona();
     DMuestra dmues = new DMuestra();
@@ -76,7 +85,7 @@ public class FrmMuestras extends javax.swing.JFrame {
         jTfPesoInicial = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TblGranulometria = new javax.swing.JTable();
+        jTblGranulometria1 = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jTfPesoRet = new javax.swing.JTextField();
         jCmbTam = new javax.swing.JComboBox<>();
@@ -84,6 +93,8 @@ public class FrmMuestras extends javax.swing.JFrame {
         jBtnEditarG = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jTfPesoFinal = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTblGranulometria2 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -132,9 +143,19 @@ public class FrmMuestras extends javax.swing.JFrame {
 
         jBtnEditarAM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/editarFI.png"))); // NOI18N
         jBtnEditarAM.setEnabled(false);
+        jBtnEditarAM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnEditarAMActionPerformed(evt);
+            }
+        });
 
         jBtnEliminarAM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/eliminarFI.png"))); // NOI18N
         jBtnEliminarAM.setEnabled(false);
+        jBtnEliminarAM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnEliminarAMActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Sondeo:");
 
@@ -252,13 +273,13 @@ public class FrmMuestras extends javax.swing.JFrame {
                                 .addComponent(jTfIdEnsayista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jBtnEliminarAM)))
                     .addComponent(jTfEnsayista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jTabbedPane1.addTab("Agregar Muestras", jPanel2);
 
-        TblGranulometria.setModel(new javax.swing.table.DefaultTableModel(
+        jTblGranulometria1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -269,7 +290,7 @@ public class FrmMuestras extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(TblGranulometria);
+        jScrollPane1.setViewportView(jTblGranulometria1);
 
         jLabel4.setText("Peso Retenido por el Tamiz:");
 
@@ -290,29 +311,45 @@ public class FrmMuestras extends javax.swing.JFrame {
 
         jLabel5.setText("Peso Final");
 
+        jTblGranulometria2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane3.setViewportView(jTblGranulometria2);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addGap(97, 97, 97)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTfPesoFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCmbTam, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTfPesoRet, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(71, 71, 71)
-                        .addComponent(jBtnGuardarG)
-                        .addGap(18, 18, 18)
-                        .addComponent(jBtnEditarG)))
-                .addContainerGap(36, Short.MAX_VALUE))
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTfPesoFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCmbTam, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTfPesoRet, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(71, 71, 71)
+                .addComponent(jBtnGuardarG)
+                .addGap(18, 18, 18)
+                .addComponent(jBtnEditarG)
+                .addContainerGap(206, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 827, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3))
+                .addGap(44, 44, 44))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -336,8 +373,10 @@ public class FrmMuestras extends javax.swing.JFrame {
                             .addComponent(jCmbTam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTfPesoRet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12))
         );
 
         jTabbedPane1.addTab("Granulometria", jPanel1);
@@ -354,23 +393,23 @@ public class FrmMuestras extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 712, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(130, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 840, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(532, 532, 532)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jTabbedPane1)
+                .addContainerGap())
         );
 
         pack();
@@ -405,6 +444,8 @@ public class FrmMuestras extends javax.swing.JFrame {
         dmues.guardarMuestra1(mues);
         TblMuestras.setModel(dmues.mostrarMuestras(idSondeo));
         limpiar();
+        
+        
     }//GEN-LAST:event_jBtnGuardarAMActionPerformed
     private void limpiar() {
         jTfIdMuestra.setText("");
@@ -450,6 +491,8 @@ public class FrmMuestras extends javax.swing.JFrame {
         jBtnEliminarAM.setEnabled(true);
         
     }
+    
+    
     private void jTfIdMuestraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTfIdMuestraActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTfIdMuestraActionPerformed
@@ -494,7 +537,18 @@ public class FrmMuestras extends javax.swing.JFrame {
         Muestra mues = new Muestra(id_muestra);
         MuestraxTamiz mxt = new MuestraxTamiz(peso_ret, tam, mues); 
         dmxt.agregarMuestraxTamiz(mxt);    
+        
+        jTblGranulometria1.setModel(dmxt.mostrargGranulometria1());
+        jTblGranulometria2.setModel(dmxt.mostrargGranulometria2());
     }//GEN-LAST:event_jBtnGuardarGActionPerformed
+
+    private void jBtnEditarAMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEditarAMActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBtnEditarAMActionPerformed
+
+    private void jBtnEliminarAMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEliminarAMActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBtnEliminarAMActionPerformed
 
     private void fillCombo() {
         jCmbTam.removeAllItems();
@@ -544,7 +598,6 @@ public class FrmMuestras extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TblGranulometria;
     public static javax.swing.JTable TblMuestras;
     private javax.swing.JButton jBtnEditarAM;
     private javax.swing.JButton jBtnEditarG;
@@ -566,7 +619,10 @@ public class FrmMuestras extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTblGranulometria1;
+    private javax.swing.JTable jTblGranulometria2;
     private javax.swing.JTextField jTfCorreo;
     private javax.swing.JTextField jTfEnsayista;
     private javax.swing.JTextField jTfIdEnsayista;

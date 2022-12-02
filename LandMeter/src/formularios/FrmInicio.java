@@ -46,6 +46,7 @@ public class FrmInicio extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Cambria", 1, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("BIENVENIDO !");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -59,6 +60,7 @@ public class FrmInicio extends javax.swing.JFrame {
             .addGap(0, 274, Short.MAX_VALUE)
         );
 
+        jLblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/Logo.png"))); // NOI18N
         jLblLogo.setAlignmentY(0.0F);
 
@@ -80,7 +82,7 @@ public class FrmInicio extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jBtnFrmProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43)))
+                        .addGap(30, 30, 30)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );

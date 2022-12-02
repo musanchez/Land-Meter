@@ -34,7 +34,9 @@ public class FrmSondeos extends javax.swing.JFrame {
      * Creates new form FrmSondeos
      */
     public FrmSondeos() {
+        
         initComponents();
+        setExtendedState(MAXIMIZED_BOTH);
         
     }
 
@@ -66,31 +68,32 @@ public class FrmSondeos extends javax.swing.JFrame {
         jTblRegistrosSondeos = new javax.swing.JTable();
         jBtnEditarSondeo = new javax.swing.JButton();
         jBtnEliminarSondeo = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jBtnMuestras = new javax.swing.JButton();
         jBtnReg1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 102));
 
-        jLabel1.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Cambria", 1, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Registro de Sondeos");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(406, 406, 406)
                 .addComponent(jLabel1)
-                .addGap(355, 355, 355))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel1)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         jLabel2.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
@@ -139,7 +142,7 @@ public class FrmSondeos extends javax.swing.JFrame {
                             .addComponent(jTfCoordenadasSondeo, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTfFechaSondeo, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel5))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jLabel2)
@@ -149,7 +152,7 @@ public class FrmSondeos extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTfIdProyect, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(3, 3, 3)
                 .addComponent(jTfNomProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -214,16 +217,12 @@ public class FrmSondeos extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
         );
 
         jBtnEditarSondeo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/editarFI.png"))); // NOI18N
@@ -244,12 +243,13 @@ public class FrmSondeos extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Cambria", 1, 12)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/muestras.png"))); // NOI18N
-        jButton1.setText("Muestras");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jBtnMuestras.setFont(new java.awt.Font("Cambria", 1, 12)); // NOI18N
+        jBtnMuestras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/complementos/img/muestras.png"))); // NOI18N
+        jBtnMuestras.setText("Muestras");
+        jBtnMuestras.setEnabled(false);
+        jBtnMuestras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jBtnMuestrasActionPerformed(evt);
             }
         });
 
@@ -265,43 +265,46 @@ public class FrmSondeos extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jBtnEditarSondeo)
-                    .addComponent(jBtnEliminarSondeo)
-                    .addComponent(jButton1))
-                .addContainerGap())
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(343, 343, 343)
-                .addComponent(jBtnReg1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(343, 343, 343)
+                        .addComponent(jBtnReg1)
+                        .addGap(59, 59, 59)
+                        .addComponent(jBtnEditarSondeo)
+                        .addGap(55, 55, 55)
+                        .addComponent(jBtnEliminarSondeo)
+                        .addGap(55, 55, 55)
+                        .addComponent(jBtnMuestras)))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtnReg1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
-                        .addComponent(jBtnEditarSondeo)
-                        .addGap(29, 29, 29)
-                        .addComponent(jBtnEliminarSondeo)
-                        .addGap(34, 34, 34)
-                        .addComponent(jButton1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtnReg1)
-                .addContainerGap(46, Short.MAX_VALUE))
+                        .addGap(22, 22, 22)
+                        .addComponent(jBtnEditarSondeo))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jBtnMuestras)
+                            .addComponent(jBtnEliminarSondeo))))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
@@ -409,7 +412,7 @@ public class FrmSondeos extends javax.swing.JFrame {
         limpiar();
     }//GEN-LAST:event_jBtnEliminarSondeoActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jBtnMuestrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnMuestrasActionPerformed
         // TODO add your handling code here:
         DMuestra dm = new DMuestra();
         FrmMuestras frm = new FrmMuestras();
@@ -417,7 +420,7 @@ public class FrmSondeos extends javax.swing.JFrame {
         this.setVisible(false);
         frm.jTfIdSondeo.setText(this.jTfCoordenadasSondeo.getText());
         FrmMuestras.TblMuestras.setModel(dm.mostrarMuestras(jTfCoordenadasSondeo.getText()));
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jBtnMuestrasActionPerformed
 
     private void jBtnReg1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnReg1ActionPerformed
         // TODO add your handling code here:
@@ -484,6 +487,7 @@ public class FrmSondeos extends javax.swing.JFrame {
             jBtnGuardarSondeo.setEnabled(false);
             jBtnEditarSondeo.setEnabled(true);
             jBtnEliminarSondeo.setEnabled(true);
+            jBtnMuestras.setEnabled(true);
           
     }
     
@@ -516,8 +520,8 @@ public class FrmSondeos extends javax.swing.JFrame {
     private javax.swing.JButton jBtnEditarSondeo;
     private javax.swing.JButton jBtnEliminarSondeo;
     private javax.swing.JButton jBtnGuardarSondeo;
+    private javax.swing.JButton jBtnMuestras;
     private javax.swing.JButton jBtnReg1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
